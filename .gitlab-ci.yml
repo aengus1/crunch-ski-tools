@@ -1,10 +1,5 @@
 image: openjdk:11
 
-workflow:
-  rules:
-    - if: $CI_COMMIT_REF_NAME =~ /-wip$/
-      when: never
-
 stages:
   - build
   - test
