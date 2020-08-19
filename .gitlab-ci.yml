@@ -8,6 +8,12 @@ stages:
 
 before_script:
   - chmod +x gradlew
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
 
 build:
   stage: build
@@ -26,7 +32,7 @@ test:
 
 release:
   stage: release
-  script: ./gradlew release
+  script: ./gradlew release -Prelease.disableChecks
   only:
     - master
 
@@ -36,6 +42,8 @@ publish:
   only:
     - master
 
+after_script:
+  - echo - "End of CI script"
 
 #buildImage:
 #  stage: deploy
