@@ -35,7 +35,7 @@ commands:
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:openjdk-11-boot-stretch-node
+      - image: circleci/openjdk:11-jdk-buster-node
     working_directory: /home/circleci/repo
 
     steps:
