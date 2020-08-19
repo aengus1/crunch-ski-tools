@@ -51,3 +51,4 @@ workflows:
   standard_workflow:
     jobs:
       - build:
+          context: tools-context
