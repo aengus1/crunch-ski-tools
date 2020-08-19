@@ -51,4 +51,3 @@ workflows:
   standard_workflow:
     jobs:
       - build:
-          context: sls-context
