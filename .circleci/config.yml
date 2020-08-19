@@ -16,14 +16,17 @@ commands:
           key: gradle-cache-v1-{{ .Branch }}-{{ checksum "build.gradle" }}
           paths:
             - ~/.gradle
-  build:
-    steps: ./gradlew build
+  gbuild:
+    steps:
+      - run: ./gradlew build
 
   test:
-    steps: ./gradlew test
+    steps:
+      - run: ./gradlew test
 
   release:
-    steps: ./gradlew release
+    steps:
+      - run: ./gradlew release
 
 jobs:
   build:
@@ -34,7 +37,7 @@ jobs:
     steps:
       - checkout
       - restore-cache
-      - build
+      - gbuild
       - test
       - release
 
