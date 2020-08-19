@@ -8,6 +8,7 @@ workflow:
 stages:
   - build
   - test
+  - release
   - deploy
 
 before_script:
@@ -29,7 +30,7 @@ test:
     - branches
 
 release:
-  stage: build
+  stage: release
   script: ./gradlew release
   only:
     - master
@@ -41,16 +42,16 @@ publish:
     - master
 
 
-buildImage:
-  stage: deploy
-  script:
-  only:
-    - master
-
-publishImage:
-  stage: deploy
-  script:
-  only:
-    - master
+#buildImage:
+#  stage: deploy
+#  script:
+#  only:
+#    - master
+#
+#publishImage:
+#  stage: deploy
+#  script:
+#  only:
+#    - master
 
 
