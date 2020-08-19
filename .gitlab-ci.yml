@@ -32,7 +32,7 @@ test:
 
 release:
   stage: release
-  script: ./gradlew release 
+  script: ./gradlew release -Prelease.disableChecks -Prelease.pushTagsOnly --debug
   only:
     - master
 
