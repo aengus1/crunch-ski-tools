@@ -32,7 +32,7 @@ test:
 
 release:
   stage: release
-  script: ./gradlew release -Prelease.disableChecks -Prelease.pushTagsOnly --debug
+  script: ./gradlew release -Prelease.disableChecks -Prelease.pushTagsOnly -Prelease.attachRemote=${CI_REPOSITORY_URL}
   only:
     - master
 
