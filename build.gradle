@@ -5,7 +5,7 @@ plugins {
     // plugin to publish to maven
     id 'maven-publish'
     //release plugin for versioning on old version due to this bug https://github.com/allegro/axion-release-plugin/issues/270
-    id 'pl.allegro.tech.build.axion-release' version '1.8.1'
+    id 'pl.allegro.tech.build.axion-release' version '1.12.0'
 }
 
 group = 'ski.crunch'
