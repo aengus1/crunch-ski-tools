@@ -1,7 +1,13 @@
 image: openjdk:11
 
+workflow:
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /-wip$/
+      when: never
+
 stages:
   - build
+  - test
   - deploy
 
 before_script:
@@ -12,8 +18,39 @@ build:
   script: ./gradlew build
   artifacts:
     paths:
-      - build/libs/tools-*-SNAPSHOT.jar
+      - build/libs/tools-*.jar
+  only:
+    - branches
+
+test:
+  stage: test
+  script: ./gradlew check
+  only:
+    - branches
+
+release:
+  stage: build
+  script: ./gradlew release
+  only:
+    - master
 
 publish:
   stage: deploy
   script: ./gradlew publish
+  only:
+    - master
+
+
+buildImage:
+  stage: deploy
+  script:
+  only:
+    - master
+
+publishImage:
+  stage: deploy
+  script:
+  only:
+    - master
+
+
