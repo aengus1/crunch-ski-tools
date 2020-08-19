@@ -5,11 +5,15 @@ commands:
     steps:
       - run: chmod +x gradlew
       - run: export GRADLEW_USER_HOME=`pwd`:/.gradle
+
+  restore_cache:
+    steps:
       - restore_cache:
           keys:
             - gradle-cache-v1-{{ .Branch }}-{{ checksum "build.gradle" }}
             - gradle-cache-v1-{{ .Branch }}
             - gradle-cache-v1
+
   save-cache:
     steps:
       - save_cache:
@@ -40,6 +44,7 @@ jobs:
       - gbuild
       - test
       - release
+      - save_cache
 
 workflows:
   version: 2.1
