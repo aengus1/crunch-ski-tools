@@ -6,7 +6,7 @@ commands:
       - run: chmod +x gradlew
       - run: export GRADLEW_USER_HOME=`pwd`:/.gradle
 
-  restore_cache:
+  restore-cache:
     steps:
       - restore_cache:
           keys:
@@ -44,7 +44,7 @@ jobs:
       - gbuild
       - test
       - release
-      - save_cache
+      - save-cache
 
 workflows:
   version: 2.1
