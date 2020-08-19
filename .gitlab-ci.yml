@@ -15,6 +15,7 @@ before_script:
   - git config --global user.email "aengus.mccullough@gmail.com"
   - git config --global user.name "CI Robot"
   - mkdir -p ~/.ssh
+  - ssh-keyscan my-gitlab-machine >> gitlab-known-hosts
   - cat gitlab-known-hosts >> ~/.ssh/known_hosts
 
 cache:
