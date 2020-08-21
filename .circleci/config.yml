@@ -2,6 +2,7 @@ version: 2.1
 
 commands:
   setup:
+    name: Setup Gradle Environment
     steps:
       - run: chmod +x gradlew
       - run: export GRADLEW_USER_HOME=`pwd`:/.gradle
@@ -21,33 +22,23 @@ commands:
           paths:
             - ~/.gradle
   gbuild:
+    name: Gradle Build
     steps:
       - run: ./gradlew build -Preckon.scope=minor -Preckon.stage=rc -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
 
   test:
+    name: Gradle Unit test
     steps:
       - run: ./gradlew check -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
 
   release:
+    name: Publish to Artifact Repository
     steps:
       - run: git config user.email "aengus.mccullough@gmail.com"
       - run: git config user.name "CI Robot"
       - run: ./gradlew publish -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
       - run: ./gradlew reckonTagPush -Preckon.scope=minor -Preckon.stage=rc -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
 
-
-  buildjar:
-    steps:
-      - checkout
-      - setup
-      - add_ssh_keys:
-          fingerprints:
-            - "52:95:61:f3:cd:7a:d0:6a:10:fe:58:36:21:ef:c5:40"
-      - restore-cache
-      - gbuild
-      - test
-      - release
-      - save-cache
 
 
 jobs:
@@ -71,7 +62,7 @@ jobs:
           paths:
             - libs
       - test
-      #- release
+      - release
       - save-cache
   buildDockerImage:
     docker:
