@@ -1,12 +1,11 @@
 version: 2.1
 orbs:
-  openjdk-install: cloudesire/openjdk-install@1.2.3
+  openjdk-install: entur/vm-install-tools@0.0.6
 
 commands:
   setup:
     steps:
-      - openjdk-install/openjdk:
-          version: 11
+      - openjdk-install/install-java-11
       - run: chmod +x gradlew
       - run: export GRADLEW_USER_HOME=`pwd`:/.gradle
 
@@ -43,7 +42,7 @@ commands:
 
 
 jobs:
- 
+
   buildDockerImage:
     docker:
       - image: docker:17.05.0-ce-git
