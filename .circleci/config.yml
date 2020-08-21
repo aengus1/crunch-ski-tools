@@ -1,8 +1,12 @@
 version: 2.1
+orbs:
+  openjdk-install: cloudesire/openjdk-install@1.2.3
 
 commands:
   setup:
     steps:
+      - openjdk-install/openjdk:
+          version: 11
       - run: chmod +x gradlew
       - run: export GRADLEW_USER_HOME=`pwd`:/.gradle
 
@@ -59,6 +63,7 @@ jobs:
       - image: docker:17.05.0-ce-git
     working_directory: /home/circleci/repo
     steps:
+      - setup
       - add_ssh_keys:
           fingerprints:
             - "52:95:61:f3:cd:7a:d0:6a:10:fe:58:36:21:ef:c5:40"
