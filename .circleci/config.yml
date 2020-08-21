@@ -42,6 +42,9 @@ jobs:
     working_directory: /home/circleci/repo
 
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "52:95:61:f3:cd:7a:d0:6a:10:fe:58:36:21:ef:c5:40"
       - checkout
       - restore-cache
       - gbuild
