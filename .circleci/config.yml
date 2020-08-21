@@ -26,7 +26,7 @@ commands:
 
   test:
     steps:
-      - run: ./gradlew test
+      - run: ./gradlew check
 
   release:
     steps:
