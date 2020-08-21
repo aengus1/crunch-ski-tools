@@ -77,7 +77,7 @@ jobs:
       - gbuild
       - run: |
           jar=`ls build/libs`
-          echo basename -s .jar ${jar:6} > build/libs/version.txt
+          echo `basename -s .jar ${jar:6}` > build/libs/version.txt
       - persist_to_workspace:
           root: build
           paths:
@@ -105,10 +105,9 @@ jobs:
             - v1-{{ .Branch }}
           paths:
             - /caches/app.tar
-      - run: mkdir build && pwd && ls -lh
+      - run: mkdir build
       - attach_workspace:
           at: /home/circleci/repo/build
-      - run: pwd && ls -lh
       - run:
           name: Load Docker image layer cache
           command: |
