@@ -1,11 +1,8 @@
 version: 2.1
-#orbs:
-#  openjdk-install: entur/vm-install-tools@0.0.6
 
 commands:
   setup:
     steps:
-      #- openjdk-install/install-java11
       - run: chmod +x gradlew
       - run: export GRADLEW_USER_HOME=`pwd`:/.gradle
 
@@ -51,11 +48,11 @@ commands:
 
   buildjar:
     steps:
+      - checkout
       - setup
       - add_ssh_keys:
           fingerprints:
             - "52:95:61:f3:cd:7a:d0:6a:10:fe:58:36:21:ef:c5:40"
-      - checkout
       - restore-cache
       - install-jdk
       - gbuild
@@ -66,13 +63,31 @@ commands:
 
 
 jobs:
-
+  buildJar:
+    docker:
+      - image: circleci/openjdk:11-jdk-buster-node
+    working_directory: /home/circleci/repo
+    steps:
+      - checkout
+      - setup
+      - add_ssh_keys:
+          fingerprints:
+            - "52:95:61:f3:cd:7a:d0:6a:10:fe:58:36:21:ef:c5:40"
+      - restore-cache
+      - install-jdk
+      - gbuild
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - build/libs
+      - test
+      #- release
+      - save-cache
   buildDockerImage:
     docker:
       - image: docker:17.05.0-ce-git
     working_directory: /home/circleci/repo
     steps:
-      - buildjar
       - setup_remote_docker
       - run:
           name: Install Dependencies
@@ -87,6 +102,9 @@ jobs:
             - v1-{{ .Branch }}
           paths:
             - /caches/app.tar
+      - attach_workspace:
+          - at: /home/circleci/repo/workspace
+      - run:  mkdir build && cp /home/circleci/repo/workspace/* build/
       - run:
           name: Load Docker image layer cache
           command: |
@@ -113,5 +131,9 @@ workflows:
   version: 2.1
   standard_workflow:
     jobs:
+      - buildJar:
+          context: tools-context
       - buildDockerImage:
           context: tools-context
+          requires:
+            - build
