@@ -130,6 +130,14 @@ jobs:
       - store_artifacts:
           path: /caches/app.tar
           destination: docker-image
+      - run:
+          name: Publish to Docker registry
+          command: |
+            TAG=`cat build/libs/version.txt`
+            echo $TAG
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker image tag app:latest aengus/crunch-ski-tools:${TAG}
+            docker image push aengus/crunch-ski-tools:${TAG}
 
 workflows:
   version: 2.1
