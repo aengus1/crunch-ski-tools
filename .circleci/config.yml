@@ -59,7 +59,15 @@ jobs:
       - image: docker:17.05.0-ce-git
     working_directory: /home/circleci/repo
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "52:95:61:f3:cd:7a:d0:6a:10:fe:58:36:21:ef:c5:40"
       - checkout
+      - restore-cache
+      - gbuild
+      - test
+      #- release
+      - save-cache
       - setup_remote_docker
       - run:
           name: Install Dependencies
@@ -100,7 +108,5 @@ workflows:
   version: 2.1
   standard_workflow:
     jobs:
-      - build:
-          context: tools-context
       - buildDockerImage:
           context: tools-context
