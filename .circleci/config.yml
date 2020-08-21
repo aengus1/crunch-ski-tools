@@ -30,10 +30,9 @@ commands:
 
   release:
     steps:
-      - run: ./gradlew reckonTagCreate
       - run: git config user.email "aengus.mccullough@gmail.com"
       - run: git config user.name "CI Robot"
-      - run: ./gradlew reckonTagPush
+      - run: ./gradlew reckonTagPush -Preckon.scope=minor -Preckon.stage=rc
 
 jobs:
   build:
