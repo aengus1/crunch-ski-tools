@@ -44,7 +44,7 @@ publishing {
             name "GitLab_Private_Repo"
             credentials(HttpHeaderCredentials) {
                 name = 'Private-Token'
-                value = 'SAuTmbA9i13Vor28MLH_'
+                value = project.gitlabAccessToken
             }
             authentication {
                 header(HttpHeaderAuthentication)

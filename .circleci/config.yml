@@ -32,18 +32,8 @@ commands:
     steps:
       - run: git config user.email "aengus.mccullough@gmail.com"
       - run: git config user.name "CI Robot"
+      - run: ./gradlew publish -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
       - run: ./gradlew reckonTagPush -Preckon.scope=minor -Preckon.stage=rc
-
-  install-jdk:
-    steps:
-      - run: |
-          uname
-          uname -r
-          wget https://download.java.net/java/ga/jdk11/openjdk-11_linux-x64_bin.tar.gz -O /tmp/openjdk-11
-          sudo tar xfvz /tmp/openjdk-11 --directory /usr/lib/jvm
-          rm -f /tmp/openjdk-11
-          /usr/lib/jvm/jdk-11/bin/java -version
-          echo java-version `java -version`
 
 
   buildjar:
@@ -54,12 +44,10 @@ commands:
           fingerprints:
             - "52:95:61:f3:cd:7a:d0:6a:10:fe:58:36:21:ef:c5:40"
       - restore-cache
-      - install-jdk
       - gbuild
       - test
-      #- release
+      - release
       - save-cache
-
 
 
 jobs:
@@ -135,8 +123,8 @@ jobs:
             TAG=`cat build/libs/version.txt`
             echo $TAG
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker image tag app:latest aengus/crunch-ski-tools:${TAG}
-            docker image push aengus/crunch-ski-tools:${TAG}
+            docker image tag app:latest ${DOCKER_USER}/crunch-ski-tools:${TAG}
+            docker image push ${DOCKER_USER}/crunch-ski-tools:${TAG}
 
 workflows:
   version: 2.1
