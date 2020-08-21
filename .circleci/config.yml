@@ -1,11 +1,11 @@
 version: 2.1
-orbs:
-  openjdk-install: entur/vm-install-tools@0.0.6
+#orbs:
+#  openjdk-install: entur/vm-install-tools@0.0.6
 
 commands:
   setup:
     steps:
-      - openjdk-install/install-java11
+      #- openjdk-install/install-java11
       - run: chmod +x gradlew
       - run: export GRADLEW_USER_HOME=`pwd`:/.gradle
 
@@ -37,16 +37,10 @@ commands:
       - run: git config user.name "CI Robot"
       - run: ./gradlew reckonTagPush -Preckon.scope=minor -Preckon.stage=rc
 
-  installDeps:
-
-
-
-jobs:
-
-  buildDockerImage:
-    docker:
-      - image: docker:17.05.0-ce-git
-    working_directory: /home/circleci/repo
+  build:
+    executor:
+      docker:
+        - image: circleci/openjdk:11-jdk-buster-node
     steps:
       - setup
       - add_ssh_keys:
@@ -58,6 +52,17 @@ jobs:
       - test
       #- release
       - save-cache
+
+
+
+jobs:
+
+  buildDockerImage:
+    docker:
+      - image: docker:17.05.0-ce-git
+    working_directory: /home/circleci/repo
+    steps:
+      - build
       - setup_remote_docker
       - run:
           name: Install Dependencies
