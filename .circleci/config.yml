@@ -136,4 +136,4 @@ workflows:
       - buildDockerImage:
           context: tools-context
           requires:
-            - build
+            - buildJar
