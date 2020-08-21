@@ -78,6 +78,7 @@ jobs:
       - run: |
           jar=`ls build/libs`
           echo basename -s .jar ${jar:6} > build/libs/version.txt
+          mkdir workspace
       - persist_to_workspace:
           root: workspace
           paths:
