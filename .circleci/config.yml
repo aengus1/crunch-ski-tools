@@ -103,7 +103,7 @@ jobs:
           paths:
             - /caches/app.tar
       - attach_workspace:
-          - at: /home/circleci/repo/workspace
+          at: /home/circleci/repo/workspace
       - run:  mkdir build && cp /home/circleci/repo/workspace/* build/
       - run:
           name: Load Docker image layer cache
