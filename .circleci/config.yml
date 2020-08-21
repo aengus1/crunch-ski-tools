@@ -22,7 +22,7 @@ commands:
             - ~/.gradle
   gbuild:
     steps:
-      - run: ./gradlew build
+      - run: ./gradlew build Preckon.scope=minor -Preckon.stage=rc
 
   test:
     steps:
@@ -30,7 +30,10 @@ commands:
 
   release:
     steps:
-      - run: ./gradlew release
+      - run: ./gradlew reckonTagCreate
+      - run: git config user.email "aengus.mccullough@gmail.com"
+      - run: git config user.name "CI Robot"
+      - run: ./gradlew reckonTagPush
 
 jobs:
   build:
