@@ -74,8 +74,10 @@ jobs:
           fingerprints:
             - "52:95:61:f3:cd:7a:d0:6a:10:fe:58:36:21:ef:c5:40"
       - restore-cache
-      - install-jdk
       - gbuild
+      - run: |
+          jar=`ls build/libs`
+          echo basename -s .jar ${jar:6} > build/libs/version.txt
       - persist_to_workspace:
           root: workspace
           paths:
