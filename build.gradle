@@ -25,7 +25,7 @@ configurations {
 }
 
 reckon {
-    scopeFromProp('minor', 'major', 'patch')
+    scopeFromProp()
     stageFromProp('rc', 'final')
 }
 

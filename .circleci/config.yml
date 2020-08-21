@@ -22,7 +22,7 @@ commands:
             - ~/.gradle
   gbuild:
     steps:
-      - run: ./gradlew build Preckon.scope=minor -Preckon.stage=rc
+      - run: ./gradlew build -Preckon.scope=minor -Preckon.stage=rc
 
   test:
     steps:
