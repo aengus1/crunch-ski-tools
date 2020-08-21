@@ -90,6 +90,7 @@ jobs:
       - image: docker:17.05.0-ce-git
     working_directory: /home/circleci/repo
     steps:
+      - checkout
       - setup_remote_docker
       - run:
           name: Install Dependencies
@@ -104,9 +105,10 @@ jobs:
             - v1-{{ .Branch }}
           paths:
             - /caches/app.tar
-      - run: mkdir build
+      - run: mkdir build && pwd && ls -lh
       - attach_workspace:
           at: /home/circleci/repo/build
+      - run: pwd && ls -lh
       - run:
           name: Load Docker image layer cache
           command: |
