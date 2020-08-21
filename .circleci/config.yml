@@ -5,7 +5,7 @@ orbs:
 commands:
   setup:
     steps:
-      - openjdk-install/install-java-11
+      - openjdk-install/install-java11
       - run: chmod +x gradlew
       - run: export GRADLEW_USER_HOME=`pwd`:/.gradle
 
