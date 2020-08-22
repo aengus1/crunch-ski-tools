@@ -33,7 +33,9 @@ reckon {
 
 reckonTagPush {
     // force this task to run every time it is called
-    outputs.upToDateWhen { false }
+    doLast {
+        println "Ensuring this task is not skipped"
+    }
 }
 reckonTagCreate.dependsOn check
 
