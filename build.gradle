@@ -26,7 +26,7 @@ configurations {
 
 reckon {
     scopeFromProp()
-    stageFromProp('rc', 'final')
+    stageFromProp('beta', 'rc', 'final')
 }
 
 reckonTagCreate.dependsOn check

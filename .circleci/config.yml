@@ -36,8 +36,8 @@ commands:
     steps:
       - run: git config user.email "aengus.mccullough@gmail.com"
       - run: git config user.name "CI Robot"
-      - run: ./gradlew publish -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
       - run: ./gradlew reckonTagPush -Preckon.scope=minor -Preckon.stage=rc -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+      - run: ./gradlew publish -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
 
   extract_version:
     description: Parse Version Name from library
@@ -78,6 +78,22 @@ jobs:
       - test
       - release
       - save-cache
+  release:
+    docker:
+      - image: circleci/openjdk:11-jdk-buster-node
+    working_directory: /home/circleci/repo
+    steps:
+      - checkout
+      - setup
+      - add_ssh_keys:
+          fingerprints:
+            - "52:95:61:f3:cd:7a:d0:6a:10:fe:58:36:21:ef:c5:40"
+      - restore_cache
+      - run: mkdir build
+      - attach_workspace:
+          at: /home/circleci/repo/build
+      - release
+
   buildDockerImage:
     docker:
       - image: docker:17.05.0-ce-git
@@ -130,7 +146,14 @@ workflows:
     jobs:
       - buildJar:
           context: tools-context
+      - release:
+          context: tools-context
+          requires: buildJar
+          branches:
+            only: master
       - buildDockerImage:
           context: tools-context
           requires:
-            - buildJar
+            - release
+          branches:
+            only: master

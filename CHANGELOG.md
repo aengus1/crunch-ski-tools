@@ -1,8 +1,12 @@
 #  (2020-08-21)
 
 
+### Bug Fixes
 
-#  (2020-08-21)
+* **build.gradle:** remove credentials from buildfile ([d9f5277](https://bitbucket.org/mcculloughsolutions/ski-analytics-tools/commits/d9f5277331439289f60a0ed406937983b29213a8))
+
+
+
 
 
 
