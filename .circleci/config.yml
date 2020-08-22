@@ -53,7 +53,7 @@ commands:
             git config user.name "CI Robot"
       - run:
           name: "Push release tag"
-          command: ./gradlew reckonTagPush -Preckon.scope=minor -Preckon.stage=${STAGE} -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+          command: ./gradlew  clean reckonTagPush -Preckon.scope=major -Preckon.stage=${STAGE} -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
       - run:
           name: "Generate Changelog"
           command:  npx standard-changelog
@@ -61,7 +61,7 @@ commands:
           name: " Commit & Push Changelog"
           command: |
               git add CHANGELOG.md
-              git commit -m "docs(CHANGELOG.md) update changelog with latest release notes"
+              git commit -m "docs(CHANGELOG.md) update changelog with latest release notes [skip ci]"
               git push origin ${CIRCLE_BRANCH}
       - run: ./gradlew publish -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
 
