@@ -150,11 +150,13 @@ workflows:
           context: tools-context
           requires:
             - buildJar
-          branches:
-            only: master
+          filters:
+            branches:
+              only: master
       - buildDockerImage:
           context: tools-context
           requires:
             - release
-          branches:
-            only: master
+          filters:
+            branches:
+              only: master
