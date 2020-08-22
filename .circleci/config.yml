@@ -24,12 +24,12 @@ commands:
   gbuild:
     description: Gradle Build
     steps:
-      - run: ./gradlew build -Preckon.scope=minor -Preckon.stage=rc -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+      - run: ./gradlew build
 
   test:
     description: Gradle Unit test
     steps:
-      - run: ./gradlew check -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+      - run: ./gradlew check
 
   release:
     description: Publish to Artifact Repository
@@ -53,7 +53,7 @@ commands:
             git config user.name "CI Robot"
       - run:
           name: "Push release tag"
-          command: ./gradlew  clean reckonTagPush -Preckon.scope=minor -Preckon.stage=${STAGE} -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+          command: ./gradlew  clean build reckonTagPush -Preckon.scope=minor -Preckon.stage=${STAGE} -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
       - run:
           name: "Generate Changelog"
           command:  npx standard-changelog
@@ -102,11 +102,18 @@ jobs:
           paths:
             - libs
       - test
+      - store_test_results:
+          path: build/test-results/test
+      - store_artifacts:
+          path: build/test-results/test
+          when: always
       - save-cache
 
   release:
     docker:
       - image: circleci/openjdk:11-jdk-buster-node
+    environment:
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     working_directory: /home/circleci/repo
     steps:
       - checkout
