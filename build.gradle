@@ -29,6 +29,10 @@ reckon {
     stageFromProp('beta', 'rc', 'final')
 }
 
+reckonTagPush {
+    // force this task to run every time it is called
+    outputs.upToDateWhen { false }
+}
 reckonTagCreate.dependsOn check
 
 publishing {
