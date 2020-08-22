@@ -34,10 +34,10 @@ commands:
   release:
     description: Publish to Artifact Repository
     steps:
-      - run
-        name: "Determine release channel"
-        command: |
-          STAGE=""
+      - run:
+          name: "Determine release channel"
+          command: |
+                   STAGE=""
                     if [ ${CIRCLE_BRANCH} == "master" ]; then
                       STAGE=final
                     elif [ ${CIRCLE_BRANCH} == "develop" ]; then
@@ -45,7 +45,7 @@ commands:
                     else
                       STAGE=beta
                     fi
-          echo $STAGE
+                   echo $STAGE
       - run:
           name: "Configure git"
           command: |
