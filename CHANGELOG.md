@@ -1,3 +1,30 @@
+#  (2020-08-22)
+
+
+### Bug Fixes
+
+* **config.yml:** syntax error in config.yml ([201fc8c](https://bitbucket.org/mcculloughsolutions/ski-analytics-tools/commits/201fc8c194235684aa324baed51bdb8d2c585c67))
+
+
+
+#  (2020-08-22)
+
+
+### Bug Fixes
+
+* **config.yml:** syntax error in config.yml ([201fc8c](https://bitbucket.org/mcculloughsolutions/ski-analytics-tools/commits/201fc8c194235684aa324baed51bdb8d2c585c67))
+
+
+
+#  (2020-08-22)
+
+
+### Bug Fixes
+
+* **config.yml:** syntax error in config.yml ([201fc8c](https://bitbucket.org/mcculloughsolutions/ski-analytics-tools/commits/201fc8c194235684aa324baed51bdb8d2c585c67))
+
+
+
 #  (2020-08-21)
 
 

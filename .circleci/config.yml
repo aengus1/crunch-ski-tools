@@ -34,9 +34,28 @@ commands:
   release:
     description: Publish to Artifact Repository
     steps:
+      - run : |
+          STAGE=""
+                    if [ ${CIRCLE_BRANCH} == "master" ]; then
+                      STAGE=final
+                    elif [ ${CIRCLE_BRANCH} == "develop" ]; then
+                      STAGE=rc
+                    else
+                      STAGE=beta
+                    fi
+          echo $STAGE
       - run: git config user.email "aengus.mccullough@gmail.com"
       - run: git config user.name "CI Robot"
-      - run: ./gradlew reckonTagPush -Preckon.scope=minor -Preckon.stage=rc -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+      - run: ./gradlew reckonTagPush -Preckon.scope=minor -Preckon.stage=${STAGE} -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+      - run:
+          name: "Generate Changelog"
+          command:  npm standard-changelog
+      - run:
+          name: " Commit & Push Changelog"
+          command: |
+              git add CHANGELOG.md
+              git commit -m "docs(CHANGELOG.md) update changelog with latest release notes"
+              git push origin ${CIRCLE_BRANCH}
       - run: ./gradlew publish -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
 
   extract_version:
@@ -88,10 +107,28 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "52:95:61:f3:cd:7a:d0:6a:10:fe:58:36:21:ef:c5:40"
-      - restore_cache
+      - restore-cache
       - run: mkdir build
       - attach_workspace:
           at: /home/circleci/repo/build
+      - run:
+          name: Check current version of node
+          command: node -v
+            # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      # install dependencies
+      - run: sudo npm install -g npm
+      #- run: npm install --save-dev semantic-release
+      - run: npm install --save-dev standard-changelog
+      # cache node_modules
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       - release
 
   buildDockerImage:
