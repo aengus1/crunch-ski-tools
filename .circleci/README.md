@@ -45,4 +45,7 @@ Using the free Gitlab package registry.
 - Add this token to CircleCI tools context as `GITLAB_ACCESS_TOKEN`
 
 
+ ### Static Code Analysis - Codacy
  
+ - Go to repository in Codacy and `settings/ integrations/ add integration`
+ - copy the Project API token into CIRCLE_CI `tools-context` as `CODACY_PROJECT_TOKEN`
