@@ -24,7 +24,7 @@ commands:
   gbuild:
     description: Gradle Build
     steps:
-      - run: ./gradlew build
+      - run: git status  && ./gradlew build
 
   test:
     description: Gradle Unit test
@@ -53,7 +53,7 @@ commands:
             git config user.name "CI Robot"
       - run:
           name: "Push release tag"
-          command: ./gradlew  clean build reckonTagCreate reckonTagPush -Preckon.scope=minor -Preckon.stage=${STAGE} -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+          command: git status && ./gradlew  build  reckonTagPush -Preckon.scope=minor -Preckon.stage=${STAGE} -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
       - run:
           name: "Generate Changelog"
           command:  npx standard-changelog
