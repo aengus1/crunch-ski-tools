@@ -6,6 +6,8 @@ plugins {
     id 'maven-publish'
     //release plugin for versioning on old version due to this bug https://github.com/allegro/axion-release-plugin/issues/270
     id 'org.ajoberstar.reckon' version '0.12.0'
+    // coverage
+    id 'jacoco'
 }
 
 group = 'ski.crunch'
@@ -23,7 +25,7 @@ configurations {
     }
 
 }
-
+// Sem Ver.....
 reckon {
     scopeFromProp()
     stageFromProp('beta', 'rc', 'final')
@@ -35,6 +37,7 @@ reckonTagPush {
 }
 reckonTagCreate.dependsOn check
 
+// Package Registry publishing...
 publishing {
     publications {
         tools(MavenPublication) {
@@ -73,6 +76,45 @@ dependencies {
     }
 }
 
+// Coverage
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled true
+    }
+}
+
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+}
+
+configurations { codacy }
+
+dependencies {
+    codacy 'com.codacy:codacy-coverage-reporter:latest.release'
+}
+
+task sendCoverageToCodacy(type: JavaExec, dependsOn: jacocoTestReport) {
+    main = "com.codacy.CodacyCoverageReporter"
+    classpath = configurations.codacy
+    group = "report"
+    description = "sends coverage report to codacy.  requires CODACY_PROJECT_TOKEN environment variable to be set"
+    args = [
+            "report",
+            "-l",
+            "Java",
+            "-r",
+            "${buildDir}/jacoco/test/jacocoTestReport.xml"
+    ]
 }

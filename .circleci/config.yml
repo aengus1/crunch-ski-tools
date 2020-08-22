@@ -53,7 +53,7 @@ commands:
             git config user.name "CI Robot"
       - run:
           name: "Push release tag"
-          command: ./gradlew  clean build reckonTagPush -Preckon.scope=minor -Preckon.stage=${STAGE} -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+          command: ./gradlew  clean build reckonTagCreate reckonTagPush -Preckon.scope=minor -Preckon.stage=${STAGE} -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
       - run:
           name: "Generate Changelog"
           command:  npx standard-changelog
@@ -102,6 +102,7 @@ jobs:
           paths:
             - libs
       - test
+      - run: ./gradlew sendCoverageToCodacy
       - store_test_results:
           path: build/test-results/test
       - store_artifacts:
