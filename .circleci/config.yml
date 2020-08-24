@@ -46,7 +46,7 @@ commands:
                       STAGE=beta
                     fi
                    echo $STAGE
-                  export STAGE
+                   export STAGE
       - run:
           name: "Configure git"
           command: |
