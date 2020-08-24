@@ -65,6 +65,7 @@ commands:
                       then
                       ./gradlew  build  reckonTagPush -Preckon.scope=minor -Preckon.stage=rc -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
                     fi
+      - run: ./gradlew publish -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
       # install std-changelog AFTER release so repo is still clean at time of release
       - run: sudo npm install -g npm
       - run: npm install --save-dev standard-changelog
@@ -81,7 +82,7 @@ commands:
               git add CHANGELOG.md
               git commit -m "docs(CHANGELOG.md) update changelog with latest release notes [skip ci]"
               git push origin ${CIRCLE_BRANCH}
-      - run: ./gradlew publish -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+
 
   extract_version:
     description: Parse Version Name from library
@@ -125,9 +126,6 @@ jobs:
       - store_artifacts:
           path: build/test-results/test
           when: always
-      - store_artifacts:
-          path: build/libs/version.txt
-          when: always
       - save-cache
 
   release:
@@ -157,6 +155,9 @@ jobs:
             - v1-dependencies-
       - release
       - extract_version
+      - store_artifacts:
+          path: build/libs/version.txt
+          when: always
   buildDockerImage:
     docker:
       - image: docker:17.05.0-ce-git
@@ -197,7 +198,7 @@ jobs:
       - run:
           name: Publish to Docker registry
           command: |
-            TAG=`cat build/libs/version.txt`
+            TAG=`cat /home/circleci/repo/build/libs/version.txt`
             echo $TAG
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker image tag app:latest ${DOCKER_USER}/crunch-ski-tools:${TAG}
@@ -216,11 +217,15 @@ workflows:
             - buildJar
           filters:
             branches:
-              only: master
+              only:
+                - master
+                - develop
       - buildDockerImage:
           context: tools-context
           requires:
             - release
           filters:
             branches:
-              only: master
+              only:
+                - master
+                - develop
