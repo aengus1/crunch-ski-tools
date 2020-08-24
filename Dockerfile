@@ -73,6 +73,7 @@ RUN echo "java -jar /usr/local/crunch/tools.jar $$@" >> /usr/local/bin/crunch &&
 ## Switch away from root user
 RUN groupadd -r cigroup
 RUN useradd --no-log-init -r -g cigroup circleci
+RUN mkdir /home/circleci && mkdir /home/circleci/repo && mkdir /home/circleci/.ssh && cd /home/circleci
 RUN chown -R circleci /home/circleci
 RUN chgrp -R cigroup /home/circleci
 RUN chmod -R 777 /home/circleci
