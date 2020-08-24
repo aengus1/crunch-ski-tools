@@ -24,7 +24,7 @@ commands:
   gbuild:
     description: Gradle Build
     steps:
-      - run: git status  && ./gradlew build
+      - run: git status  && ./gradlew build -Preckon.stage=final
 
   test:
     description: Gradle Unit test
