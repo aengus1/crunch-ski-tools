@@ -74,13 +74,13 @@ public class MainCommand implements Callable<Integer> {
     public String getDataRegion() {
         return dataRegion;
     }
-    void setAwsProfile(String profile) {
+    public void setAwsProfile(String profile) {
         this.awsProfile = profile;
     }
-    void setProjectName(String projectName) {
+    public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
-    void setDataRegion(String dataRegion) {
+    public void setDataRegion(String dataRegion) {
         this.dataRegion = dataRegion;
     }
     public boolean isVerbose() {

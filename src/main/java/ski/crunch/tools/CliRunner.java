@@ -6,20 +6,18 @@ import org.springframework.stereotype.Component;
 import picocli.CommandLine;
 import ski.crunch.tools.commands.MainCommand;
 
-import java.util.List;
-import java.util.concurrent.Callable;
 
 @Component
 public class CliRunner implements CommandLineRunner, ExitCodeGenerator {
 
     private final MainCommand command;
     private CommandLine.IFactory factory;
+    private int exitCode;
 
     public CliRunner(MainCommand command, CommandLine.IFactory factory) {
         this.command = command;
         this.factory = factory;
     }
-    private int exitCode;
 
     @Override
     public void run(String... args) throws Exception {
