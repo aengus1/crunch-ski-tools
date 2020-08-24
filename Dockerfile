@@ -9,7 +9,7 @@
 
 ##TODO -> INSTALL PROTOBUF COMPILER https://github.com/protocolbuffers/protobuf/releases/protoc-3.13.0-linux-x86_64.zip
 
-FROM centos/nodejs-8-centos7
+FROM centos/nodejs-8-centos7:latest
 
 WORKDIR /usr/local/app
 USER root
@@ -46,7 +46,7 @@ RUN alternatives --set javac java-${JAVA_VERSION}-openjdk.x86_64
 # CMD ["javac", "--version"]
 
 ## Install Gradle
-RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -P /tmp
+RUN curl https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip --output /tmp/gradle-${GRADLE_VERSION}-bin.zip
 RUN unzip -d /opt/gradle /tmp/gradle-${GRADLE_VERSION}-bin.zip
 ENV PATH=/opt/gradle/gradle-${GRADLE_VERSION}/bin:${PATH}
 # CMD ["gradle", "--version"]
@@ -59,7 +59,8 @@ RUN pip install awscli
 # CMD ["aws", "--version"]
 
 ## Install Terraform
-RUN cd /tmp && wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+WORKDIR /tmp
+RUN curl https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip --output terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 RUN unzip /tmp/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin
 # CMD ["terraform", "-v"]
 
@@ -69,3 +70,12 @@ COPY build/libs/tools*.jar /usr/local/crunch/tools.jar
 RUN echo "#!/bin/bash" > /usr/local/bin/crunch
 RUN echo "java -jar /usr/local/crunch/tools.jar $$@" >> /usr/local/bin/crunch && chmod a+x /usr/local/bin/crunch
 # CMD ["crunch --version"]
+
+## Switch away from root user
+RUN groupadd -r cigroup
+RUN useradd --no-log-init -r -g cigroup circleci
+RUN chown -R circleci /home/circleci
+RUN chgrp -R cigroup /home/circleci
+RUN chmod -R 777 /home/circleci
+ENV HOME="/home/circleci"
+USER circleci
