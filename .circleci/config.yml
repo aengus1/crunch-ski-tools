@@ -53,6 +53,9 @@ commands:
             git config user.email "aengus.mccullough@gmail.com"
             git config user.name "CI Robot"
       - run:
+          name: "trial run"
+          command: ./gradlew build -Preckon.scope=minor -Preckon.stage=${STAGE}
+      - run:
           name: "Push release tag"
           command: git status && ./gradlew  build  reckonTagPush -Preckon.scope=minor -Preckon.stage=${STAGE} -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
       - run:
@@ -97,7 +100,6 @@ jobs:
             - "52:95:61:f3:cd:7a:d0:6a:10:fe:58:36:21:ef:c5:40"
       - restore-cache
       - gbuild
-      - extract_version
       - persist_to_workspace:
           root: build
           paths:
@@ -149,6 +151,7 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - release
+      - extract_version
   buildDockerImage:
     docker:
       - image: docker:17.05.0-ce-git
