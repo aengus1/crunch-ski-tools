@@ -57,7 +57,11 @@ commands:
           command: ./gradlew build -Preckon.scope=minor -Preckon.stage=${STAGE}
       - run:
           name: "Push release tag"
-          command: git status && ./gradlew  build  reckonTagPush -Preckon.scope=minor -Preckon.stage=${STAGE} -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+          command: |
+                    git status
+                    echo stage = ${STAGE}
+                    echo scope = minor
+                    ./gradlew  build  reckonTagPush -Preckon.scope=minor -Preckon.stage=${STAGE} -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
       # install std-changelog AFTER release so repo is still clean at time of release
       - run: sudo npm install -g npm
       - run: npm install --save-dev standard-changelog
