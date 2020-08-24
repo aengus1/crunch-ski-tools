@@ -46,6 +46,7 @@ commands:
                       STAGE=beta
                     fi
                    echo $STAGE
+                  export STAGE
       - run:
           name: "Configure git"
           command: |
@@ -107,6 +108,9 @@ jobs:
           path: build/test-results/test
       - store_artifacts:
           path: build/test-results/test
+          when: always
+      - store_artifacts:
+          path: build/libs/version.txt
           when: always
       - save-cache
 
