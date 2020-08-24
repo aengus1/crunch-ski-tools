@@ -46,7 +46,7 @@ RUN alternatives --set javac java-${JAVA_VERSION}-openjdk.x86_64
 # CMD ["javac", "--version"]
 
 ## Install Gradle
-RUN curl https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip --output /tmp/gradle-${GRADLE_VERSION}-bin.zip
+RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -P /tmp
 RUN unzip -d /opt/gradle /tmp/gradle-${GRADLE_VERSION}-bin.zip
 ENV PATH=/opt/gradle/gradle-${GRADLE_VERSION}/bin:${PATH}
 # CMD ["gradle", "--version"]
@@ -59,8 +59,7 @@ RUN pip install awscli
 # CMD ["aws", "--version"]
 
 ## Install Terraform
-WORKDIR /tmp
-RUN curl https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip --output terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+RUN cd /tmp && wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 RUN unzip /tmp/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin
 # CMD ["terraform", "-v"]
 
