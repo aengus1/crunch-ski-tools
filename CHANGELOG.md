@@ -9,6 +9,10 @@
 #  (2020-08-24)
 
 
+
+#  (2020-08-24)
+
+
 ### Bug Fixes
 
 * **ci:** more fixees to ci ([3e172b3](https://bitbucket.org/mcculloughsolutions/ski-analytics-tools/commits/3e172b3c8a1f0a26690fba44887360af46a5aba1))
