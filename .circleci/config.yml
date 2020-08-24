@@ -58,6 +58,13 @@ commands:
       - run:
           name: "Push release tag"
           command: git status && ./gradlew  build  reckonTagPush -Preckon.scope=minor -Preckon.stage=${STAGE} -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+      # install std-changelog AFTER release so repo is still clean at time of release
+      - run: sudo npm install -g npm
+      - run: npm install --save-dev standard-changelog
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run:
           name: "Generate Changelog"
           command:  npx standard-changelog
@@ -141,15 +148,6 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      # install dependencies
-      - run: sudo npm install -g npm
-      #- run: npm install --save-dev semantic-release
-      - run: npm install --save-dev standard-changelog
-      # cache node_modules
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
       - release
       - extract_version
   buildDockerImage:
