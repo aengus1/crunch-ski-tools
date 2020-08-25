@@ -88,6 +88,7 @@ dependencies {
     compile('info.picocli:picocli-spring-boot-starter:4.5.0')
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    testCompile 'com.github.stefanbirkner:system-lambda:1.1.0'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
