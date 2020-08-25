@@ -6,7 +6,7 @@ import java.io.*;
 
 public class Version implements CommandLine.IVersionProvider {
 
-    private static String get() throws IOException ./{
+    private static String get() throws IOException {
         ClassLoader cl = Version.class.getClassLoader();
         File versionFile = new File(System.getenv().get("PWD")+"/version.txt");
         try (FileReader fr = new FileReader(versionFile)) {
