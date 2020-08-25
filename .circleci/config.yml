@@ -131,7 +131,6 @@ jobs:
       - attach_workspace:
           at: /home/circleci/repo/build
       - release
-      - extract_version
       - store_artifacts:
           path: build/libs/version.txt
           when: always
@@ -151,6 +150,7 @@ jobs:
       - run: mkdir build
       - attach_workspace:
           at: /home/circleci/repo/build
+      - extract_version
       - run:
           name: "Check version exists"
           command: |
