@@ -77,8 +77,8 @@ commands:
               jar=`ls /home/circleci/repo/build/libs`
                echo $jar
                echo ${jar:6}
-                echo `basename -s ${jar:6} .jar `
-               echo `basename -s ${jar:6} .jar ` > /home/circleci/repo/build/libs/version.txt
+                echo `basename  ${jar:6} .jar `
+               echo `basename  ${jar:6} .jar ` > /home/circleci/repo/build/libs/version.txt
                 cat /home/circleci/repo/build/libs/version.txt
 
   install_deps:
