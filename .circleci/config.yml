@@ -35,26 +35,11 @@ commands:
     description: Publish to Artifact Repository
     steps:
       - run:
-          name: "Determine release channel"
-          command: |
-                   STAGE=""
-                    if [ ${CIRCLE_BRANCH} == "master" ]; then
-                      STAGE=final
-                    elif [ ${CIRCLE_BRANCH} == "develop" ]; then
-                      STAGE=rc
-                    else
-                      STAGE=beta
-                    fi
-                   echo $STAGE
-                   export STAGE
-      - run:
           name: "Configure git"
           command: |
             git config user.email "aengus.mccullough@gmail.com"
             git config user.name "CI Robot"
-      - run:
-          name: "trial run"
-          command: ./gradlew build -Preckon.scope=minor -Preckon.stage=${STAGE}
+
       - run:
           name: "Push release tag"
           command: |
@@ -65,14 +50,15 @@ commands:
                       then
                       ./gradlew  build  reckonTagPush -Preckon.scope=minor -Preckon.stage=rc -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
                     fi
-      - run: ./gradlew publish -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
-      # install std-changelog AFTER release so repo is still clean at time of release
-      - run: sudo npm install -g npm
-      - run: npm install --save-dev standard-changelog
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: "Publish binary"
+          command: ./gradlew publish -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+
+      - run:
+          name: "Install std-changelog"
+          command: |
+                     sudo npm install -g npm
+                     npm install --save-dev standard-changelog
       - run:
           name: "Generate Changelog"
           command:  npx standard-changelog
@@ -144,15 +130,6 @@ jobs:
       - run: mkdir build
       - attach_workspace:
           at: /home/circleci/repo/build
-      - run:
-          name: Check current version of node
-          command: node -v
-            # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
       - release
       - extract_version
       - store_artifacts:
@@ -174,6 +151,12 @@ jobs:
       - run: mkdir build
       - attach_workspace:
           at: /home/circleci/repo/build
+      - run:
+          name: "Check version exists"
+          command: |
+                     ls -l /home/circleci/repo/build
+                     ls -l /home/circleci/repo/build/libs
+                     cat /home/circleci/repo/build/libs/version.txt
       - run:
           name: Load Docker image layer cache
           command: |
