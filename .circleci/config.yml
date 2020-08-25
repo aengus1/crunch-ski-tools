@@ -65,6 +65,7 @@ commands:
       - run:
           name: " Commit & Push Changelog"
           command: |
+              git checkout ${CIRCLE_BRANCH}
               git add CHANGELOG.md
               git commit -m "docs(CHANGELOG.md) update changelog with latest release notes [skip ci]"
               git push origin ${CIRCLE_BRANCH}
