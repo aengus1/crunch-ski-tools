@@ -76,6 +76,8 @@ commands:
       - run: |
               jar=`ls /home/circleci/repo/build/libs`
                echo $jar
+               echo ${jar:6}
+                echo `basename -s .jar ${jar:6}`
                echo `basename -s .jar ${jar:6}` > /home/circleci/repo/build/libs/version.txt
                 cat /home/circleci/repo/build/libs/version.txt
 
@@ -156,7 +158,6 @@ jobs:
       - run:
           name: "Check version exists"
           command: |
-                     ls -l /home/circleci/repo/build
                      ls -l /home/circleci/repo/build/libs
                      cat /home/circleci/repo/build/libs/version.txt
       - run:
