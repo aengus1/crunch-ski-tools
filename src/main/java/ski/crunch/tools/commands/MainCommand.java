@@ -2,6 +2,7 @@ package ski.crunch.tools.commands;
 
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
+import ski.crunch.tools.Version;
 
 import java.util.concurrent.Callable;
 
@@ -9,7 +10,7 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(
         name = "crunch",
         description = "Administrative CLI tool for provisioning and data migration in Crunch.Ski backend",
-        version="1.0.1",
+        versionProvider = Version.class,
         mixinStandardHelpOptions = true,
         subcommands = {
 //                BackupCommand.class,

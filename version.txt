@@ -1,0 +1,5 @@
+
+Version: 0.12.0-beta.0.2+20200825T184018Z
+Revision: 0da6f82
+Buildtime: 25-08-2020 11:40:22
+Application-name: tools
