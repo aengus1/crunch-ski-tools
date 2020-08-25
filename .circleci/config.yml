@@ -74,8 +74,10 @@ commands:
     description: Parse Version Name from library
     steps:
       - run: |
-          jar=`ls /home/circleci/repo/build/libs`
-          echo `basename -s .jar ${jar:6}` > /home/circleci/repo/build/libs/version.txt
+              jar=`ls /home/circleci/repo/build/libs`
+               echo $jar
+               echo `basename -s .jar ${jar:6}` > /home/circleci/repo/build/libs/version.txt
+                cat /home/circleci/repo/build/libs/version.txt
 
   install_deps:
     description: Install Docker Image Deps
