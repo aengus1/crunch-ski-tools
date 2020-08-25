@@ -37,3 +37,9 @@ These tools are used in development but also in the Continous Integration Pipeli
 -  Provision an environment from scratch
 -  Update a running environment with only modules that have changed
 -  De-provision an environment & clean up resources
+
+## Docker Image
+To use the docker image:
+`docker run -it aengus/crunch-ski-tools:LATEST /bin/sh`
+
+

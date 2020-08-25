@@ -67,7 +67,7 @@ RUN unzip /tmp/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin
 RUN mkdir /usr/local/crunch
 COPY build/libs/tools*.jar /usr/local/crunch/tools.jar
 RUN echo "#!/bin/bash" > /usr/local/bin/crunch
-RUN echo "java -jar /usr/local/crunch/tools.jar $$@" >> /usr/local/bin/crunch && chmod a+x /usr/local/bin/crunch
+RUN echo "java -jar /usr/local/crunch/tools.jar \$@" >> /usr/local/bin/crunch && chmod a+x /usr/local/bin/crunch
 # CMD ["crunch --version"]
 
 ## Switch away from root user
