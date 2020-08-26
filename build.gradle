@@ -1,4 +1,10 @@
 import java.text.SimpleDateFormat
+buildscript {
+    ext {
+        mockitoVersion = "2.25.0"
+        powerMockVersion = "2.0.7"
+    }
+}
 
 plugins {
     id 'org.springframework.boot' version '2.3.3.RELEASE'
@@ -14,6 +20,7 @@ plugins {
 
 group = 'ski.crunch'
 sourceCompatibility = '11'
+
 
 configurations {
     compileOnly {
@@ -88,10 +95,19 @@ dependencies {
     compile('info.picocli:picocli-spring-boot-starter:4.5.0')
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+
+
     testCompile 'com.github.stefanbirkner:system-lambda:1.1.0'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
     }
+    testImplementation(
+            // see compatability list between mockito and powermock here: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
+            "org.mockito:mockito-core:${mockitoVersion}",
+            "org.powermock:powermock-module-junit4:${powerMockVersion}",
+            "org.powermock:powermock-api-mockito2:${powerMockVersion}"
+    )
 }
 
 // Coverage

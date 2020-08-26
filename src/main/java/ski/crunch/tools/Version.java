@@ -27,4 +27,5 @@ public class Version implements CommandLine.IVersionProvider {
     public String[] getVersion() throws Exception {
         return new String[]{get()};
     }
+
 }

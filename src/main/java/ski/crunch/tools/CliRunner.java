@@ -21,7 +21,6 @@ public class CliRunner implements CommandLineRunner, ExitCodeGenerator {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("running CLI runner");
         exitCode = new CommandLine(command, factory).execute(args);
     }
 
