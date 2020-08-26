@@ -16,10 +16,10 @@ import static junit.framework.TestCase.assertTrue;
 public class ConfigCommandTest {
 
     @Autowired
-    CommandLine.IFactory factory;
+    private CommandLine.IFactory factory;
 
     @Autowired
-    ConfigCommand configCommand;
+    private ConfigCommand configCommand;
 
     @Test
     public void testParsingCommandLineArgs() {

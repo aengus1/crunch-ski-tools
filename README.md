@@ -45,14 +45,14 @@ To use the docker image:
 ## Setup
 There are a few tools that need to be manually configured to run this project.
 
-#### Commitizen
+### Commitizen
 Tool used to enforce commit message format.  Use the `commit` script to commit.
 
 `npm i -g commitizen`
 
-#### Enable Annotation Processing  
+### Enable Annotation Processing  
 1.  IntelliJ -> Preferences -> Build, Execution , Deployment -> Compiler
--  Enable Annotation processing
--  Obtain processors from project classpath
+ -  Enable Annotation processing
+ -  Obtain processors from project classpath
 
 2.  Install IDE plugin
