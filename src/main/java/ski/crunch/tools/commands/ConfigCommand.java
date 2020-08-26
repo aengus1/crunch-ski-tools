@@ -4,9 +4,7 @@ import org.springframework.stereotype.Component;
 import picocli.CommandLine;
 import ski.crunch.tools.ConfigLoader;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.concurrent.Callable;
 
 @Component
