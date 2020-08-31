@@ -1,5 +1,5 @@
 
-Version: 0.12.0-rc.3.10+20200826T055706Z
-Revision: e5aaa62
-Buildtime: 25-08-2020 22:57:11
+Version: 0.12.0-rc.6.22+20200831T032516Z
+Revision: 8cfc143
+Buildtime: 30-08-2020 20:25:23
 Application-name: tools
