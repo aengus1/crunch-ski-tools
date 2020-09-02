@@ -15,6 +15,7 @@ Ensure that accounts are set up and configured with the following providers
 -  Create a context called `tools-context` under the CircleCI pipeline and add the following variables:
 `DOCKER_USER: ` username of dockerhub account
 `DOCKER_PASS:`  access key of dockerhub account 
+`BB_PASS`:      password of bitbucket user account (aengus_mccullough) that is used for CI robot
 
 #### Configuring Push Access to Bitbucket
 Not at all straighforward.  TLDR -> create a user key from project settings in CircleCI, 
@@ -29,8 +30,12 @@ into a lot of problems with allowing
 gitlab CI to push tags back into the source repository" ].
 
 ### VCS - Bitbucket
-The only special config is described above
+1.  Special config is described above to allow CI push access to this repo
 [^2 "attempted to use Gitlab but ran into the aforementioned issue" ].
+
+2.  Additionally - read/write access to the `crunch-ski-environments` repository is required.  Access
+method in this case is username / password.  Create a user on bitbucket and ensure the username is entered in 
+`app.envrepo.username`.  Copy the password to CI's tools-context as `BB_PASS`
 
 ### Package Registry - Gitlab
 Using the free Gitlab package registry.
