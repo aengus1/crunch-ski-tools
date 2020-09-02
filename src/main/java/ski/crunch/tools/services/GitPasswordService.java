@@ -3,12 +3,14 @@ package ski.crunch.tools.services;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-
-@Service
+@Primary
+@Service("PasswordService")
 public class GitPasswordService implements GitService {
 
     final UsernamePasswordCredentialsProvider usernamePasswordCredentialsProvider;

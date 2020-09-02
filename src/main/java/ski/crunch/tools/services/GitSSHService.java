@@ -6,6 +6,7 @@ import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.*;
 import org.eclipse.jgit.util.FS;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,7 @@ import java.io.File;
  * <p>
  * Auth via ssh private key OR username / password.  un/pw might be preferable from CI
  */
-@Primary
-@Service
+@Service("SshService")
 public class GitSSHService implements GitService {
 
 

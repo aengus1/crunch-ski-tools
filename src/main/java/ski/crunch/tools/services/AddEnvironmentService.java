@@ -39,6 +39,7 @@ public class AddEnvironmentService {
 
         // parse the config file
         EnvironmentConfig config = parseConfigFromRepo();
+        System.out.println(config.getPrimary_region());
 
 
     }
