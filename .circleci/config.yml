@@ -111,7 +111,7 @@ jobs:
           paths:
             - libs
       - test
-      - run: ./gradlew sendCoverageToCodacy -Padd.envrepo.password=${BB_PASS}
+      - run: ./gradlew sendCoverageToCodacy -Papp.envrepo.password=${BB_PASS}
       - store_test_results:
           path: build/test-results/test
       - store_artifacts:

@@ -9,7 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class ConfigLoader {
+/**
+ * Loads configuration from tools config file (~/.crunch/config)
+ */
+public class ToolsConfigLoader {
 
     @Getter @Setter
     private  String homeDir;
@@ -25,7 +28,7 @@ public class ConfigLoader {
     @Getter
     private Map<ConfigurationProperty, String> values;
 
-    public ConfigLoader() {
+    public ToolsConfigLoader() {
         scanner = new Scanner(System.in);
         values = new HashMap<>();
         setDefaults();
