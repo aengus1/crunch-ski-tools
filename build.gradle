@@ -129,10 +129,15 @@ jacocoTestReport {
     }
 }
 
+bootRun {
+    systemProperty "app.envrepo.password", findProperty("app.envrepo.password")
+}
 test {
+    systemProperty "app.envrepo.password", findProperty("app.envrepo.password")
     useJUnitPlatform()
     finalizedBy jacocoTestReport
 }
+
 
 jacocoTestReport {
     dependsOn test

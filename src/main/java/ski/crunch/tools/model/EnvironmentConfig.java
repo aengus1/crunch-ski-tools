@@ -23,6 +23,7 @@ public class EnvironmentConfig {
      public static class Environment {
         private String domain_name;
         private String default_branch;
+        private String profile;
         private boolean isCI;
         private String servicesVersion;
         private String infraVersion;

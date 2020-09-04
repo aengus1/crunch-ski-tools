@@ -16,6 +16,7 @@ public class GitPasswordService implements GitService {
     final UsernamePasswordCredentialsProvider usernamePasswordCredentialsProvider;
 
     public GitPasswordService(@Value("${app.envrepo.username}") String userName, @Value("${app.envrepo.password}") String password) {
+        System.out.println("password = " + password);
         usernamePasswordCredentialsProvider = new UsernamePasswordCredentialsProvider(userName, password);
     }
 

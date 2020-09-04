@@ -23,6 +23,7 @@ import java.util.Map;
 public class AddEnvironmentService {
 
     private File repoDirectory;
+    private File terraformDirectory;
 
     private final GitService gitService;
 
@@ -30,16 +31,21 @@ public class AddEnvironmentService {
 
         this.gitService = gitService;
         this.repoDirectory = Files.createTempDirectory("envrepo").toFile();
+        this.terraformDirectory = Files.createTempDirectory("terraform").toFile();
     }
 
     public void addEnvironment(AddEnvironmentOptions options) throws IOException, GitAPIException {
+
 
         // clone the environment repository to a temp directory
         gitService.cloneRepo(options.getRepositoryUrl(), repoDirectory.getAbsolutePath());
 
         // parse the config file
         EnvironmentConfig config = parseConfigFromRepo();
-        System.out.println(config.getPrimary_region());
+
+        // generate the terraform source
+
+
 
 
     }
@@ -72,6 +78,7 @@ public class AddEnvironmentService {
                 Map<String, Object> properties = (Map<String, Object>) environment.get(s);
                 env.setDefault_branch((String) properties.get("default_branch"));
                 env.setCI((boolean) properties.get("ci"));
+                env.setProfile((String) properties.get("profile"));
                 env.setDomain_name((String) properties.get("domain_name"));
                 Map<String, String> version = (Map<String, String>) properties.get("version");
                 env.setServicesVersion(version.get("services"));

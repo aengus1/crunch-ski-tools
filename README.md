@@ -40,7 +40,11 @@ These tools are used in development but also in the Continous Integration Pipeli
 
 ## Docker Image
 To use the docker image:
-`docker run -it aengus/crunch-ski-tools:LATEST /bin/sh`
+`docker run -e BB_PASS=<password> -it aengus/crunch-ski-tools:LATEST /bin/sh`
+<password> - password to bitbucket account with rw access to (only) the environment repository
+
+When using the docker container from CI ensure that the environment variable is properly passed in on startup.  
+See [circleci docs](https://circleci.com/docs/2.0/env-vars/#setting-an-environment-variable-in-a-container)
 
 ## Setup
 There are a few tools that need to be manually configured to run this project.
