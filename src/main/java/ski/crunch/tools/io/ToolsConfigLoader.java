@@ -1,8 +1,8 @@
-package ski.crunch.tools;
+package ski.crunch.tools.io;
 
 import lombok.Getter;
 import lombok.Setter;
-import ski.crunch.tools.model.ConfigurationProperty;
+import ski.crunch.tools.model.ToolsConfigProperty;
 
 import java.io.*;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ public class ToolsConfigLoader {
 
     private Scanner scanner;
     @Getter
-    private Map<ConfigurationProperty, String> values;
+    private Map<ToolsConfigProperty, String> values;
 
     public ToolsConfigLoader() {
         scanner = new Scanner(System.in);
@@ -73,7 +73,7 @@ public class ToolsConfigLoader {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] kvp = line.split("=");
-                    values.put(ConfigurationProperty.valueOf(kvp[0]), kvp[1]);
+                    values.put(ToolsConfigProperty.valueOf(kvp[0]), kvp[1]);
                 }
             }
         }
@@ -83,12 +83,12 @@ public class ToolsConfigLoader {
      * Prompts user to enter non-empty properties from commandline
      */
     public void readPropertiesFromUserInput() {
-        for (ConfigurationProperty property : ConfigurationProperty.values()) {
+        for (ToolsConfigProperty property : ToolsConfigProperty.values()) {
             readPropertyFromUserInput(property);
         }
     }
 
-    private void readPropertyFromUserInput(ConfigurationProperty property) {
+    private void readPropertyFromUserInput(ToolsConfigProperty property) {
         System.out.println(property + " [Enter a value to continue]:");
         String input = scanner.nextLine();
         if (input.isEmpty()) {
@@ -104,8 +104,8 @@ public class ToolsConfigLoader {
      */
     public void printConfig() throws IOException{
         readConfiguration();
-        for (ConfigurationProperty configurationProperty : values.keySet()) {
-            System.out.println(configurationProperty.name() + " = " + values.get(configurationProperty));
+        for (ToolsConfigProperty toolsConfigProperty : values.keySet()) {
+            System.out.println(toolsConfigProperty.name() + " = " + values.get(toolsConfigProperty));
         }
     }
     /**
@@ -115,7 +115,7 @@ public class ToolsConfigLoader {
     public void writeConfig() throws IOException {
         FileWriter fileWriter = new FileWriter(configFile);
         try {
-            for (ConfigurationProperty property : values.keySet()) {
+            for (ToolsConfigProperty property : values.keySet()) {
                 fileWriter.write(property.name() + "=" + values.get(property) + System.lineSeparator());
             }
         } finally {
@@ -138,7 +138,7 @@ public class ToolsConfigLoader {
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] kvp = line.split("=");
                     String key = kvp[0];
-                    for (ConfigurationProperty property : ConfigurationProperty.values()) {
+                    for (ToolsConfigProperty property : ToolsConfigProperty.values()) {
                         if (property.name().equalsIgnoreCase(key)) {
                             values.put(property, kvp[1]);
                             System.out.println(property.name() + ":    " + kvp[1] + "  [Enter to accept]:");

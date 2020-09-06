@@ -1,4 +1,4 @@
-package ski.crunch.environments;
+package ski.crunch.tools.io;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import ski.crunch.tools.CoreTestConfiguration;
+import ski.crunch.tools.ThymeleafConfig;
 
 import static org.junit.Assert.assertTrue;
 
@@ -23,7 +24,7 @@ public class TestTemplateParse {
         ThymeleafConfig config = new ThymeleafConfig();
         config.setApplicationContext(applicationContext);
 
-        TemplateEngine templateEngine =config.templateEngine();
+        TemplateEngine templateEngine = config.terraformTemplateEngine();
 
 
         Context context = new Context();

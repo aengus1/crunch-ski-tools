@@ -2,14 +2,14 @@
 #################################################################################################################
 terraform {
   backend "s3" {
-    bucket = "[[${stage}]]-[[${project_name}]]-tf-backend-store"
-    key = "webclient-cd/terraform.tfstate"
+    bucket = "staging-crunch-ski-tf-backend-store"
+    key = "frontend/terraform.tfstate"
     region = "us-east-1"
-    dynamodb_table = "[[${stage}]]-[[${project_name}]]-terraform-state-lock-dynamo"
+    dynamodb_table = "staging-crunch-ski-terraform-state-lock-dynamo"
     encrypt = false
   }
   required_providers {
-    aws = "~> 2.47.0"
+    aws = "~> 2.48.0"
   }
 }
 
@@ -17,34 +17,36 @@ provider "aws" {
   region = var.primary_region
   profile = var.profile
 }
-
-
 ## Module
 #################################################################################################################
 
-module "cd-webclient" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=[[${infra_branch}]]/src/modules/cd-webclient"
+module "frontend" {
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=develop/src/stacks/frontend"
+  app_alias = var.app_alias
   domain_name = var.domain_name
   primary_region = var.primary_region
   profile = var.profile
   project_name = var.project_name
-  stage = var.stage
+  stage = "staging"
 }
-
 ## Outputs
 #################################################################################################################
-
-output "cd-user-key" {
-  value = module.cd-webclient.access_key
+output "cloudfront_distro_domain" {
+  value = module.frontend.cloudfront_distro_domain
 }
 
-output "cd-user-secret-key" {
-  value = module.cd-webclient.access_key_secret
+output "s3_bucket_app" {
+  value = module.frontend.s3_bucket_app
 }
 
 
 ## Variables
 #################################################################################################################
+variable "primary_region" {
+  type = string
+  description = "primary region"
+}
+
 variable "project_name" {
   type = string
   description = "name of this project"
@@ -52,17 +54,17 @@ variable "project_name" {
 
 variable "domain_name" {
   type = string
-  description = "domain name for which to create dkim records"
-}
-
-variable "primary_region" {
-  type = string
-  description = "aws region for acm certificate"
+  description = "domain name for which to create A records"
 }
 
 variable "profile" {
   type = string
   description = "aws profile to use"
+}
+
+variable "app_alias" {
+  type = string
+  description = "alias to prefix domain with.  should be empty string for prod, and name of stage for others"
 }
 
 variable "stage" {

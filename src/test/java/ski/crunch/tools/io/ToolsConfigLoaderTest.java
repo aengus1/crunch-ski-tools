@@ -1,9 +1,10 @@
-package ski.crunch.tools;
+package ski.crunch.tools.io;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import ski.crunch.tools.model.ConfigurationProperty;
+import ski.crunch.tools.io.ToolsConfigLoader;
+import ski.crunch.tools.model.ToolsConfigProperty;
 
 import java.io.*;
 import java.util.Map;
@@ -63,12 +64,12 @@ public class ToolsConfigLoaderTest {
         toolsConfigLoader.setConfigFile(new File(getClass().getClassLoader().getResource("testConfig.properties").getFile()));
 
         toolsConfigLoader.readConfiguration();
-        Map<ConfigurationProperty, String> result = toolsConfigLoader.getValues();
-        assertTrue(result.keySet().contains(ConfigurationProperty.PROJECT_NAME));
-        assertEquals("crunch.ski", result.get(ConfigurationProperty.PROJECT_NAME));
+        Map<ToolsConfigProperty, String> result = toolsConfigLoader.getValues();
+        assertTrue(result.keySet().contains(ToolsConfigProperty.PROJECT_NAME));
+        assertEquals("crunch.ski", result.get(ToolsConfigProperty.PROJECT_NAME));
 
-        assertTrue(result.keySet().contains(ConfigurationProperty.SECONDARY_REGION));
-        assertEquals("us-west-2", result.get(ConfigurationProperty.SECONDARY_REGION));
+        assertTrue(result.keySet().contains(ToolsConfigProperty.SECONDARY_REGION));
+        assertEquals("us-west-2", result.get(ToolsConfigProperty.SECONDARY_REGION));
 
     }
 
@@ -78,14 +79,14 @@ public class ToolsConfigLoaderTest {
         toolsConfigLoader.setConfigFile(new File(getClass().getClassLoader().getResource("testConfig.properties").getFile()));
 
         toolsConfigLoader.readConfiguration();
-        Map<ConfigurationProperty, String> result = toolsConfigLoader.getValues();
+        Map<ToolsConfigProperty, String> result = toolsConfigLoader.getValues();
 
         toolsConfigLoader.setConfigFile(new File(System.getProperty("java.io.tmpdir"),"testconfigwrite.txt"));
         toolsConfigLoader.writeConfig();
 
         toolsConfigLoader.readConfiguration();
-        Map<ConfigurationProperty, String> secondResult = toolsConfigLoader.getValues();
-        assertEquals(result.get(ConfigurationProperty.PROJECT_NAME), secondResult.get(ConfigurationProperty.PROJECT_NAME));
+        Map<ToolsConfigProperty, String> secondResult = toolsConfigLoader.getValues();
+        assertEquals(result.get(ToolsConfigProperty.PROJECT_NAME), secondResult.get(ToolsConfigProperty.PROJECT_NAME));
 
     }
 

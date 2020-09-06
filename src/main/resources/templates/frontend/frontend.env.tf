@@ -2,10 +2,10 @@
 #################################################################################################################
 terraform {
   backend "s3" {
-    bucket = "[[${env_name}]]-[[${project_name}]]-tf-backend-store"
+    bucket = "[[${stage}]]-[[${project_name}]]-tf-backend-store"
     key = "frontend/terraform.tfstate"
     region = "us-east-1"
-    dynamodb_table = "[[${env_name}]]-[[${project_name}]]-terraform-state-lock-dynamo"
+    dynamodb_table = "[[${stage}]]-[[${project_name}]]-terraform-state-lock-dynamo"
     encrypt = false
   }
   required_providers {
@@ -27,7 +27,7 @@ module "frontend" {
   primary_region = var.primary_region
   profile = var.profile
   project_name = var.project_name
-  stage = "[[${env_name}]]"
+  stage = "[[${stage}]]"
 }
 ## Outputs
 #################################################################################################################

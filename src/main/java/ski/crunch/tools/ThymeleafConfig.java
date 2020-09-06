@@ -1,4 +1,4 @@
-package ski.crunch.environments;
+package ski.crunch.tools;
 
 
 import org.springframework.beans.BeansException;
@@ -64,12 +64,11 @@ public class ThymeleafConfig implements ApplicationContextAware {
     }
 
     @Bean
-    public SpringTemplateEngine templateEngine(){
+    public SpringTemplateEngine terraformTemplateEngine(){
         // SpringTemplateEngine automatically applies SpringStandardDialect and
         // enables Spring's own MessageSource message resolution mechanisms.
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(terraformTemplateResolver());
-        templateEngine.addTemplateResolver(jsonTemplateResolver());
         // Enabling the SpringEL compiler with Spring 4.2.4 or newer can
         // speed up execution in most scenarios, but might be incompatible
         // with specific cases when expressions in one template are reused
@@ -79,6 +78,13 @@ public class ThymeleafConfig implements ApplicationContextAware {
         return templateEngine;
     }
 
+    @Bean
+    public SpringTemplateEngine jsonTemplateEngine() {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.addTemplateResolver(jsonTemplateResolver());
+        templateEngine.setEnableSpringELCompiler(true);
+        return templateEngine;
+    }
 //    @Bean
 //    public ThymeleafViewResolver viewResolver(){
 //        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();

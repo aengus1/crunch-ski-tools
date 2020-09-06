@@ -2,7 +2,7 @@ package ski.crunch.tools.commands;
 
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
-import ski.crunch.tools.ToolsConfigLoader;
+import ski.crunch.tools.io.ToolsConfigLoader;
 
 import java.io.File;
 import java.util.concurrent.Callable;

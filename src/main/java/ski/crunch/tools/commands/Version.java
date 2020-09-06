@@ -1,9 +1,13 @@
-package ski.crunch.tools;
+package ski.crunch.tools.commands;
 
 import picocli.CommandLine;
 
 import java.io.*;
 
+/**
+ * Class reads the current application version from <project_root_dir>/version.txt  (written by gradle during build)
+ * and makes it available to the application through picocli --version
+ */
 public class Version implements CommandLine.IVersionProvider {
 
     private static String get() throws IOException {

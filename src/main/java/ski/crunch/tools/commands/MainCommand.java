@@ -2,7 +2,6 @@ package ski.crunch.tools.commands;
 
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
-import ski.crunch.tools.Version;
 
 import java.util.concurrent.Callable;
 

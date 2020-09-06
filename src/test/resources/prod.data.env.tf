@@ -3,10 +3,10 @@
 #################################################################################################################
 terraform {
   backend "s3" {
-    bucket = "[[${stage}]]-[[${project_name}]]-tf-backend-store"
+    bucket = "prod-crunch-ski-tf-backend-store"
     key = "data/terraform.tfstate"
     region = "us-east-1"
-    dynamodb_table = "[[${stage}]]-[[${project_name}]]-terraform-state-lock-dynamo"
+    dynamodb_table = "prod-crunch-ski-terraform-state-lock-dynamo"
     encrypt = false
   }
   required_providers {
@@ -24,8 +24,7 @@ provider "aws" {
 #################################################################################################################
 module "data" {
 
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=[[${infra_branch}]]/src/stacks/data"
-
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=master/src/stacks/data"
   activity_table_billing_mode = var.activity_table_billing_mode
   activity_table_point_in_time_recovery = var.activity_table_point_in_time_recovery
   activity_table_read_capacity = var.activity_table_read_capacity
@@ -41,7 +40,7 @@ module "data" {
   user_table_point_in_time_recovery = var.user_table_point_in_time_recovery
   user_table_read_capacity = var.user_table_read_capacity
   user_table_write_capacity = var.user_table_write_capacity
-  stage = "[[${stage}]]"
+  stage = "prod"
 }
 
 

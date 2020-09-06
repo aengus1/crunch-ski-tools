@@ -2,10 +2,10 @@
 #################################################################################################################
 terraform {
   backend "s3" {
-    bucket = "[[${stage}]]-[[${project_name}]]-tf-backend-store"
-    key = "webclient-cd/terraform.tfstate"
+    bucket = "dev-crunch-ski-tf-backend-store"
+    key = "api/terraform.tfstate"
     region = "us-east-1"
-    dynamodb_table = "[[${stage}]]-[[${project_name}]]-terraform-state-lock-dynamo"
+    dynamodb_table = "dev-crunch-ski-terraform-state-lock-dynamo"
     encrypt = false
   }
   required_providers {
@@ -19,27 +19,40 @@ provider "aws" {
 }
 
 
+
+
 ## Module
 #################################################################################################################
 
-module "cd-webclient" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=[[${infra_branch}]]/src/modules/cd-webclient"
+module "api" {
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=develop/src/stacks/api"
+  api_sub_domain = var.api_sub_domain
+  cognito_sub_domain = var.cognito_sub_domain
   domain_name = var.domain_name
   primary_region = var.primary_region
   profile = var.profile
   project_name = var.project_name
-  stage = var.stage
+  ws_sub_domain = var.ws_sub_domain
+  stage = "dev"
 }
 
 ## Outputs
 #################################################################################################################
 
-output "cd-user-key" {
-  value = module.cd-webclient.access_key
+output "api_endpoint_cf_domain_name" {
+  value = module.api.ws_endpoint_cf_domain_name
 }
 
-output "cd-user-secret-key" {
-  value = module.cd-webclient.access_key_secret
+output "api_endpoint_zone_id" {
+  value = module.api.api_endpoint_zone_id
+}
+
+output "ws_endpoint_cf_domain_name" {
+  value = module.api.ws_endpoint_cf_domain_name
+}
+
+output "ws_endpoint_zone_id" {
+  value = module.api.ws_endpoint_zone_id
 }
 
 
@@ -68,4 +81,19 @@ variable "profile" {
 variable "stage" {
   type = string
   description = "environment descriptor"
+}
+
+variable "cognito_sub_domain"  {
+  type = string
+  description = "subdomain for the cognito endpoint"
+}
+
+variable "ws_sub_domain"  {
+  type = string
+  description = "subdomain for the websocket endpoint"
+}
+
+variable "api_sub_domain"  {
+  type = string
+  description = "subdomain for the websocket endpoint"
 }

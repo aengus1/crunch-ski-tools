@@ -2,10 +2,10 @@
 #################################################################################################################
 terraform {
   backend "s3" {
-    bucket = "[[${stage}]]-[[${project_name}]]-tf-backend-store"
+    bucket = "int-test-crunch-ski-tf-backend-store"
     key = "webclient-cd/terraform.tfstate"
     region = "us-east-1"
-    dynamodb_table = "[[${stage}]]-[[${project_name}]]-terraform-state-lock-dynamo"
+    dynamodb_table = "int-test-crunch-ski-terraform-state-lock-dynamo"
     encrypt = false
   }
   required_providers {
@@ -23,7 +23,7 @@ provider "aws" {
 #################################################################################################################
 
 module "cd-webclient" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=[[${infra_branch}]]/src/modules/cd-webclient"
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=develop/src/modules/cd-webclient"
   domain_name = var.domain_name
   primary_region = var.primary_region
   profile = var.profile

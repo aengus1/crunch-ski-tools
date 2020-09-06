@@ -25,6 +25,7 @@ public class EnvironmentConfig {
         private String default_branch;
         private String profile;
         private boolean isCI;
+        private boolean isProd;
         private String servicesVersion;
         private String infraVersion;
         private String infraBranch;

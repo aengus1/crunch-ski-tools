@@ -2,10 +2,10 @@
 #################################################################################################################
 terraform {
   backend "s3" {
-    bucket = "[[${env_name}]]-[[${project_name}]]-tf-backend-store"
+    bucket = "[[${stage}]]-[[${project_name}]]-tf-backend-store"
     key = "api/terraform.tfstate"
     region = "us-east-1"
-    dynamodb_table = "[[${env_name}]]-[[${project_name}]]-terraform-state-lock-dynamo"
+    dynamodb_table = "[[${stage}]]-[[${project_name}]]-terraform-state-lock-dynamo"
     encrypt = false
   }
   required_providers {
@@ -31,10 +31,10 @@ module "api" {
   profile = var.profile
   project_name = var.project_name
   ws_sub_domain = var.ws_sub_domain
-  stage = "[[${env_name}]]"
+  stage = "[[${stage}]]"
 }
 
-## Outputs`
+## Outputs
 #################################################################################################################
 
 output "api_endpoint_cf_domain_name" {
