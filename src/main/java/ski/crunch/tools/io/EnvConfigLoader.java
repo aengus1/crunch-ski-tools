@@ -34,7 +34,7 @@ public class EnvConfigLoader {
         result.setProject_name(((String) domain.get("project_name")));
 
         List<Map<String, Object>> environmentState = (ArrayList<Map<String, Object>>) conf.get("environment-state");
-        if (environmentState.size() > 0) {
+        if (environmentState != null && environmentState.size() > 0) {
             result.setEnvironmentState(new HashMap<>());
             for (Map<String, Object> envState : environmentState) {
                 for (String s : envState.keySet()) {
@@ -53,7 +53,7 @@ public class EnvConfigLoader {
         }
 
         List<Map<String, Object>> environments = (ArrayList<Map<String, Object>>) conf.get("environment-definition");
-        if (environments.size() > 0) {
+        if (environments != null && environments.size() > 0) {
             result.setEnvironmentDefs(new HashMap<>());
             for (Map<String, Object> environment : environments) {
                 for (String s : environment.keySet()) {

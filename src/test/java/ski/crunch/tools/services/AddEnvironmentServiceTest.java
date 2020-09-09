@@ -9,7 +9,7 @@ import ski.crunch.tools.model.AddEnvironmentOptions;
 import static org.junit.Assert.*;
 
 @SpringBootTest
-public class AddEnvironmentDefinitionServiceTest {
+public class AddEnvironmentServiceTest {
 
     @Autowired
     private AddEnvironmentService addEnvironmentService;
