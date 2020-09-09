@@ -30,21 +30,21 @@ These tools are used in development but also in the Continous Integration Pipeli
 
 #### Status Reporting
 
--  Show the current deployment status of a given environment
+-  Show the current deployment status of a given environmentDefinition
 
 #### Provisioning  & Deprovisioning
 
--  Provision an environment from scratch
--  Update a running environment with only modules that have changed
--  De-provision an environment & clean up resources
+-  Provision an environmentDefinition from scratch
+-  Update a running environmentDefinition with only modules that have changed
+-  De-provision an environmentDefinition & clean up resources
 
 ## Docker Image
 To use the docker image:
 `docker run -e BB_PASS=<password> -it aengus/crunch-ski-tools:LATEST /bin/sh`
-<password> - password to bitbucket account with rw access to (only) the environment repository
+<password> - password to bitbucket account with rw access to (only) the environmentDefinition repository
 
-When using the docker container from CI ensure that the environment variable is properly passed in on startup.  
-See [circleci docs](https://circleci.com/docs/2.0/env-vars/#setting-an-environment-variable-in-a-container)
+When using the docker container from CI ensure that the environmentDefinition variable is properly passed in on startup.  
+See [circleci docs](https://circleci.com/docs/2.0/env-vars/#setting-an-environmentDefinition-variable-in-a-container)
 
 ## Setup
 There are a few tools that need to be manually configured to run this project.

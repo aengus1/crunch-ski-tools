@@ -1,5 +1,6 @@
 package ski.crunch.tools.services;
 
+import com.maximeroussy.invitrode.WordGenerator;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.stereotype.Service;
 import ski.crunch.tools.io.EnvConfigLoader;
@@ -17,16 +18,21 @@ public class AddEnvironmentService {
     private File terraformDirectory;
 
     private final GitService gitService;
+    private final TerraformSourceGenerationService sourceGenerationService;
 
-    public AddEnvironmentService(GitService gitService) throws IOException {
+    public AddEnvironmentService(GitService gitService, TerraformSourceGenerationService sourceGenerationService) throws IOException {
 
         this.gitService = gitService;
+        this.sourceGenerationService = sourceGenerationService;
         this.repoDirectory = Files.createTempDirectory("envrepo").toFile();
         this.terraformDirectory = Files.createTempDirectory("terraform").toFile();
     }
 
     public void addEnvironment(AddEnvironmentOptions options) throws IOException, GitAPIException {
 
+        WordGenerator generator = new WordGenerator();
+        String envName = generator.newWord(8).toLowerCase();
+        System.out.println("Env Name = " + envName);
 
         // clone the environment repository to a temp directory
         gitService.cloneRepo(options.getRepositoryUrl(), repoDirectory.getAbsolutePath());
@@ -38,7 +44,7 @@ public class AddEnvironmentService {
         EnvironmentConfig config = envConfigLoader.load(configFile);
 
         // generate the terraform source
-
+        sourceGenerationService.generateTerraformSource(config, sourceDir);
 
 
 

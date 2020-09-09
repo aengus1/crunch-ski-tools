@@ -32,16 +32,16 @@ public class TerraformSourceGenerationService {
             throw new IOException("Failed to create directory: " + sourceDirectory.getAbsolutePath());
         }
 
-        for (String s : config.getEnvironments().keySet()) {
+        for (String s : config.getEnvironmentDefs().keySet()) {
 
-            File environmentTerraformRoot = buildTerraformEnvironmentSourceDirectory(sourceDirectory, s, config.getEnvironments().get(s).isCI());
+            File environmentTerraformRoot = buildTerraformEnvironmentSourceDirectory(sourceDirectory, s, config.getEnvironmentDefs().get(s).isCI());
             Context context = mapEnvironmentConfigToThymeleafContext(config, s);
 
             writeModuleSource("api", s, context, environmentTerraformRoot);
             writeModuleSource("data", s, context, environmentTerraformRoot);
             writeModuleSource("frontend", s, context, environmentTerraformRoot);
 
-            if( config.getEnvironments().get(s).isCI()) {
+            if( config.getEnvironmentDefs().get(s).isCI()) {
                 writeModuleSource("webclient-cd", s, context, environmentTerraformRoot);
             }
         }
@@ -58,29 +58,29 @@ public class TerraformSourceGenerationService {
 
     private Context mapEnvironmentConfigToThymeleafContext(EnvironmentConfig config, String environmentName) {
         Context context = new Context();
-        EnvironmentConfig.Environment environment = config.getEnvironments().get(environmentName);
+        EnvironmentConfig.EnvironmentDefinition environmentDefinition = config.getEnvironmentDefs().get(environmentName);
 
         context.setVariable("project_name", config.getProject_name());
-        context.setVariable("domain_name", environment.getDomain_name());
+        context.setVariable("domain_name", environmentDefinition.getDomain_name());
         context.setVariable("primary_region", config.getPrimary_region());
         context.setVariable("stage", environmentName);
         context.setVariable("secondary_region", config.getSecondary_region());
-        context.setVariable("profile", environment.getProfile());
-        context.setVariable("user_table_read_capacity", environment.getUser_table_read_capacity());
-        context.setVariable("user_table_write_capacity", environment.getUser_table_write_capacity());
-        context.setVariable("encrypt_user_table", environment.isEncrypt_user_table());
-        context.setVariable("user_table_billing_mode", environment.getUser_table_billing_mode());
-        context.setVariable("user_table_point_in_time_recovery", environment.isUser_table_point_in_time_recovery());
-        context.setVariable("activity_table_read_capacity", environment.getActivity_table_read_capacity());
-        context.setVariable("activity_table_write_capacity", environment.getActivity_table_write_capacity());
-        context.setVariable("encrypt_activity_table", environment.isEncrypt_activity_table());
-        context.setVariable("activity_table_billing_mode", environment.getActivity_table_billing_mode());
-        context.setVariable("activity_table_point_in_time_recovery", environment.isActivity_table_point_in_time_recovery());
-        context.setVariable("app_alias", environment.getApp_alias());
-        context.setVariable("cognito_sub_domain", environment.getCognito_sub_domain());
-        context.setVariable("ws_sub_domain", environment.getWs_sub_domain());
-        context.setVariable("api_sub_domain", environment.getApi_sub_domain());
-        context.setVariable("infra_branch", environment.getInfraBranch());
+        context.setVariable("profile", environmentDefinition.getProfile());
+        context.setVariable("user_table_read_capacity", environmentDefinition.getUser_table_read_capacity());
+        context.setVariable("user_table_write_capacity", environmentDefinition.getUser_table_write_capacity());
+        context.setVariable("encrypt_user_table", environmentDefinition.isEncrypt_user_table());
+        context.setVariable("user_table_billing_mode", environmentDefinition.getUser_table_billing_mode());
+        context.setVariable("user_table_point_in_time_recovery", environmentDefinition.isUser_table_point_in_time_recovery());
+        context.setVariable("activity_table_read_capacity", environmentDefinition.getActivity_table_read_capacity());
+        context.setVariable("activity_table_write_capacity", environmentDefinition.getActivity_table_write_capacity());
+        context.setVariable("encrypt_activity_table", environmentDefinition.isEncrypt_activity_table());
+        context.setVariable("activity_table_billing_mode", environmentDefinition.getActivity_table_billing_mode());
+        context.setVariable("activity_table_point_in_time_recovery", environmentDefinition.isActivity_table_point_in_time_recovery());
+        context.setVariable("app_alias", environmentDefinition.getApp_alias());
+        context.setVariable("cognito_sub_domain", environmentDefinition.getCognito_sub_domain());
+        context.setVariable("ws_sub_domain", environmentDefinition.getWs_sub_domain());
+        context.setVariable("api_sub_domain", environmentDefinition.getApi_sub_domain());
+        context.setVariable("infra_branch", environmentDefinition.getInfraBranch());
 
         return context;
     }

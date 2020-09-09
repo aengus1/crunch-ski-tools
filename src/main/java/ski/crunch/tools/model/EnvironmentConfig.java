@@ -13,21 +13,30 @@ public class EnvironmentConfig {
     private String primary_region;
     private String secondary_region;
 
-    private Map<String, Environment> environments;
-
+    private Map<String, EnvironmentDefinition> environmentDefs;
+    private Map<String, EnvironmentState> environmentState;
 
 
 
     @Getter
     @Setter
-     public static class Environment {
+    public static class EnvironmentState {
+        private String name;
+        private String servicesVersion;
+        private String infraVersion;
+        private String createdAt;
+        private String updatedAt;
+        private String baseData;
+    }
+
+    @Getter
+    @Setter
+     public static class EnvironmentDefinition {
         private String domain_name;
         private String default_branch;
         private String profile;
         private boolean isCI;
         private boolean isProd;
-        private String servicesVersion;
-        private String infraVersion;
         private String infraBranch;
         private int user_table_read_capacity;
         private int user_table_write_capacity;

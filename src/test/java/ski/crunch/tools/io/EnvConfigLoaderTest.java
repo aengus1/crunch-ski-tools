@@ -1,13 +1,10 @@
 package ski.crunch.tools.io;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import ski.crunch.tools.model.EnvironmentConfig;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,16 +23,23 @@ class EnvConfigLoaderTest {
         assertEquals("crunch-ski",config.getProject_name());
         assertEquals("us-east-1", config.getSecondary_region());
 
-        assertEquals(4, config.getEnvironments().keySet().size());
+        assertEquals(1, config.getEnvironmentState().keySet().size());
+        EnvironmentConfig.EnvironmentState state = config.getEnvironmentState().get("prod");
+        assertEquals("myenv", state.getName());
+        assertEquals("1.2.3", state.getServicesVersion());
+        assertEquals("4.5.6", state.getInfraVersion());
+        assertEquals("10-12-2020 20:13:04", state.getCreatedAt());
+        assertEquals("10-12-2020 20:13:04", state.getUpdatedAt());
+        assertEquals("empty", state.getBaseData());
 
-        EnvironmentConfig.Environment prodEnv = config.getEnvironments().get("prod");
+
+        assertEquals(4, config.getEnvironmentDefs().keySet().size());
+        EnvironmentConfig.EnvironmentDefinition prodEnv = config.getEnvironmentDefs().get("prod");
 
         assertEquals("prod", prodEnv.getProfile());
         assertEquals("crunch.ski", prodEnv.getDomain_name());
         assertEquals("master", prodEnv.getDefault_branch());
         assertTrue(prodEnv.isCI());
-        assertNull(prodEnv.getServicesVersion());
-        assertEquals("1.2.3", prodEnv.getInfraVersion());
 
         assertEquals("master", prodEnv.getInfraBranch());
         assertEquals(1, prodEnv.getUser_table_read_capacity());
