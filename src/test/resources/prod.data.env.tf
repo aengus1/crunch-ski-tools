@@ -40,7 +40,8 @@ module "data" {
   user_table_point_in_time_recovery = var.user_table_point_in_time_recovery
   user_table_read_capacity = var.user_table_read_capacity
   user_table_write_capacity = var.user_table_write_capacity
-  stage = "prod"
+  stage = var.stage
+  env = var.env
 }
 
 
@@ -95,7 +96,12 @@ variable "profile" {
 
 variable "stage" {
   type = string
-  description = "environment descriptor"
+  description = "stage name"
+}
+
+variable "env" {
+  type = string
+  description = "environment name"
 }
 
 variable "user_table_read_capacity" {

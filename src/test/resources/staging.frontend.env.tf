@@ -27,7 +27,8 @@ module "frontend" {
   primary_region = var.primary_region
   profile = var.profile
   project_name = var.project_name
-  stage = "staging"
+  stage = var.stage
+  env = var.env
 }
 ## Outputs
 #################################################################################################################
@@ -63,11 +64,16 @@ variable "profile" {
 }
 
 variable "app_alias" {
-  type = string
-  description = "alias to prefix domain with.  should be empty string for prod, and name of stage for others"
+  type = bool
+  description = "if true will prefix application url with environment name"
 }
 
 variable "stage" {
   type = string
-  description = "environment descriptor"
+  description = "stage name"
+}
+
+variable "env" {
+  type = string
+  description = "environment name"
 }

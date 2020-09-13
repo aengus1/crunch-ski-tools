@@ -33,7 +33,7 @@ class EnvConfigLoaderTest {
         assertEquals("empty", state.getBaseData());
 
 
-        assertEquals(4, config.getEnvironmentDefs().keySet().size());
+        assertEquals(3, config.getEnvironmentDefs().keySet().size());
         EnvironmentConfig.EnvironmentDefinition prodEnv = config.getEnvironmentDefs().get("prod");
 
         assertEquals("prod", prodEnv.getProfile());
@@ -54,7 +54,7 @@ class EnvConfigLoaderTest {
         assertEquals("PAY_PER_REQUEST", prodEnv.getActivity_table_billing_mode());
         assertTrue(prodEnv.isActivity_table_point_in_time_recovery());
 
-        assertEquals("app", prodEnv.getApp_alias());
+        assertEquals(false, prodEnv.isApp_alias());
         assertEquals("auth", prodEnv.getCognito_sub_domain());
         assertEquals("ws", prodEnv.getWs_sub_domain());
         assertEquals("api", prodEnv.getApi_sub_domain());

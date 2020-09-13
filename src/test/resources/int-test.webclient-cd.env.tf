@@ -29,6 +29,7 @@ module "cd-webclient" {
   profile = var.profile
   project_name = var.project_name
   stage = var.stage
+  env = var.env
 }
 
 ## Outputs
@@ -67,5 +68,10 @@ variable "profile" {
 
 variable "stage" {
   type = string
-  description = "environment descriptor"
+  description = "stage name"
+}
+
+variable "env" {
+  type = string
+  description = "environment name"
 }

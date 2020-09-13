@@ -2,10 +2,10 @@
 #################################################################################################################
 terraform {
   backend "s3" {
-    bucket = "dev-crunch-ski-tf-backend-store"
+    bucket = "prod-crunch-ski-tf-backend-store"
     key = "api/terraform.tfstate"
     region = "us-east-1"
-    dynamodb_table = "dev-crunch-ski-terraform-state-lock-dynamo"
+    dynamodb_table = "prod-crunch-ski-terraform-state-lock-dynamo"
     encrypt = false
   }
   required_providers {
@@ -25,7 +25,7 @@ provider "aws" {
 #################################################################################################################
 
 module "api" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=develop/src/stacks/api"
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=master/src/stacks/api"
   api_sub_domain = var.api_sub_domain
   cognito_sub_domain = var.cognito_sub_domain
   domain_name = var.domain_name
@@ -33,7 +33,8 @@ module "api" {
   profile = var.profile
   project_name = var.project_name
   ws_sub_domain = var.ws_sub_domain
-  stage = "dev"
+  stage = var.stage
+  env = var.env
 }
 
 ## Outputs
@@ -80,7 +81,12 @@ variable "profile" {
 
 variable "stage" {
   type = string
-  description = "environment descriptor"
+  description = "stage name"
+}
+
+variable "env" {
+  type = string
+  description = "environment name"
 }
 
 variable "cognito_sub_domain"  {

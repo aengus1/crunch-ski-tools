@@ -10,49 +10,14 @@
 
 ## Resources
 #################################################################################################################
-module "dev-admin" {
+module "admin" {
   source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=master/src/modules/admin"
   lock-read-capacity = 1
   lock-write-capacity = 1
   profile = var.profile
   project_name = var.project_name
-  stage = "dev"
-}
-
-module "ci-admin" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=master/src/modules/admin"
-  lock-read-capacity = 1
-  lock-write-capacity = 1
-  profile = var.profile
-  project_name = var.project_name
-  stage = "ci"
-}
-
-module "staging-admin" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=master/src/modules/admin"
-  lock-read-capacity = 1
-  lock-write-capacity = 1
-  profile = var.profile
-  project_name = var.project_name
-  stage = "staging"
-}
-
-module "prod-admin" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=master/src/modules/admin"
-  lock-read-capacity = 1
-  lock-write-capacity = 1
-  profile = var.profile
-  project_name = var.project_name
-  stage = "prod"
-}
-
-module "shared-admin" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=master/src/modules/admin"
-  lock-read-capacity = 1
-  lock-write-capacity = 1
-  profile = var.profile
-  project_name = var.project_name
-  stage = "shared"
+  stage = "[[${stage}]]"
+  env = "[[${env}]]"
 }
 
 ## Variables
@@ -64,4 +29,8 @@ variable "profile" {
 variable "project_name" {
   type = string
   description = "name of project"
+}
+variable "env" {
+  type = string
+  description = "name of environment"
 }

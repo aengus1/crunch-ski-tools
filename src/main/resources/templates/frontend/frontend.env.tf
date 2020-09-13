@@ -2,10 +2,10 @@
 #################################################################################################################
 terraform {
   backend "s3" {
-    bucket = "[[${stage}]]-[[${project_name}]]-tf-backend-store"
+    bucket = "[[${env}]]-[[${project_name}]]-tf-backend-store"
     key = "frontend/terraform.tfstate"
     region = "us-east-1"
-    dynamodb_table = "[[${stage}]]-[[${project_name}]]-terraform-state-lock-dynamo"
+    dynamodb_table = "[[${env}]]-[[${project_name}]]-terraform-state-lock-dynamo"
     encrypt = false
   }
   required_providers {
@@ -27,7 +27,8 @@ module "frontend" {
   primary_region = var.primary_region
   profile = var.profile
   project_name = var.project_name
-  stage = "[[${stage}]]"
+  stage = var.stage
+  env = var.env
 }
 ## Outputs
 #################################################################################################################
@@ -63,11 +64,16 @@ variable "profile" {
 }
 
 variable "app_alias" {
-  type = string
-  description = "alias to prefix domain with.  should be empty string for prod, and name of stage for others"
+  type = bool
+  description = "if true will prefix application url with environment name"
 }
 
 variable "stage" {
   type = string
-  description = "environment descriptor"
+  description = "stage name"
+}
+
+variable "env" {
+  type = string
+  description = "environment name"
 }

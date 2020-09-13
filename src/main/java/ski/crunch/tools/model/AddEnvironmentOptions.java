@@ -11,5 +11,7 @@ public class AddEnvironmentOptions {
 
 
     private String repositoryUrl;
+    private String stage;
+    private String baseDataPath;
 
 }

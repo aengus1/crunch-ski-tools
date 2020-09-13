@@ -35,6 +35,7 @@ public class EnvironmentConfig {
         private String domain_name;
         private String default_branch;
         private String profile;
+        private String envName;  // if not populated from yaml this will be auto-generated
         private boolean isCI;
         private boolean isProd;
         private String infraBranch;
@@ -48,7 +49,7 @@ public class EnvironmentConfig {
         private boolean encrypt_activity_table;
         private String activity_table_billing_mode;
         private boolean activity_table_point_in_time_recovery;
-        private String app_alias;
+        private boolean app_alias;
         private String cognito_sub_domain;
         private String ws_sub_domain;
         private String api_sub_domain;

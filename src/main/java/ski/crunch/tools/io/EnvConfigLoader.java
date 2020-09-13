@@ -1,5 +1,6 @@
 package ski.crunch.tools.io;
 
+import com.maximeroussy.invitrode.WordGenerator;
 import org.yaml.snakeyaml.Yaml;
 import ski.crunch.tools.model.EnvironmentConfig;
 
@@ -16,6 +17,7 @@ import java.util.Map;
  */
 public class EnvConfigLoader {
 
+    private final WordGenerator generator = new WordGenerator();
     public EnvironmentConfig load(File inputFile) throws IOException {
         Yaml yaml = new Yaml();
         EnvironmentConfig envConfig = null;
@@ -63,6 +65,11 @@ public class EnvConfigLoader {
                     env.setCI((boolean) properties.get("ci"));
                     env.setProfile((String) properties.get("profile"));
                     env.setDomain_name((String) properties.get("domain_name"));
+                    if(properties.containsKey("env_name") && !"auto".equals(properties.get("env_name"))) {
+                        env.setEnvName( (String) properties.get("env_name"));
+                    } else {
+                        env.setEnvName(generator.newWord(8).toLowerCase());
+                    }
                     Map<String, Object> tfProps = (Map<String, Object>) properties.get("properties");
                     env.setInfraBranch((String) tfProps.get("infra_branch"));
                     env.setUser_table_read_capacity((int) tfProps.get("user_table_read_capacity"));
@@ -75,7 +82,7 @@ public class EnvConfigLoader {
                     env.setEncrypt_activity_table((boolean) tfProps.get("encrypt_activity_table"));
                     env.setActivity_table_billing_mode((String) tfProps.get("activity_table_billing_mode"));
                     env.setActivity_table_point_in_time_recovery((boolean) tfProps.get("activity_table_point_in_time_recovery"));
-                    env.setApp_alias((String) tfProps.get("app_alias"));
+                    env.setApp_alias((boolean) tfProps.get("app_alias"));
                     env.setCognito_sub_domain((String) tfProps.get("cognito_sub_domain"));
                     env.setWs_sub_domain((String) tfProps.get("ws_sub_domain"));
                     env.setApi_sub_domain((String) tfProps.get("api_sub_domain"));

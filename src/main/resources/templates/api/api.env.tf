@@ -2,10 +2,10 @@
 #################################################################################################################
 terraform {
   backend "s3" {
-    bucket = "[[${stage}]]-[[${project_name}]]-tf-backend-store"
+    bucket = "[[${env}]]-[[${project_name}]]-tf-backend-store"
     key = "api/terraform.tfstate"
     region = "us-east-1"
-    dynamodb_table = "[[${stage}]]-[[${project_name}]]-terraform-state-lock-dynamo"
+    dynamodb_table = "[[${env}]]-[[${project_name}]]-terraform-state-lock-dynamo"
     encrypt = false
   }
   required_providers {
@@ -31,7 +31,8 @@ module "api" {
   profile = var.profile
   project_name = var.project_name
   ws_sub_domain = var.ws_sub_domain
-  stage = "[[${stage}]]"
+  stage = var.stage
+  env = var.env
 }
 
 ## Outputs
@@ -78,7 +79,12 @@ variable "profile" {
 
 variable "stage" {
   type = string
-  description = "environment descriptor"
+  description = "stage name"
+}
+
+variable "env" {
+  type = string
+  description = "environment name"
 }
 
 variable "cognito_sub_domain"  {

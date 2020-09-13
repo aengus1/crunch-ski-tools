@@ -2,10 +2,10 @@
 #################################################################################################################
 terraform {
   backend "s3" {
-    bucket = "[[${stage}]]-[[${project_name}]]-tf-backend-store"
+    bucket = "[[${env}]]-[[${project_name}]]-tf-backend-store"
     key = "webclient-cd/terraform.tfstate"
     region = "us-east-1"
-    dynamodb_table = "[[${stage}]]-[[${project_name}]]-terraform-state-lock-dynamo"
+    dynamodb_table = "[[${env}]]-[[${project_name}]]-terraform-state-lock-dynamo"
     encrypt = false
   }
   required_providers {
@@ -29,6 +29,7 @@ module "cd-webclient" {
   profile = var.profile
   project_name = var.project_name
   stage = var.stage
+  env = var.env
 }
 
 ## Outputs
@@ -67,5 +68,10 @@ variable "profile" {
 
 variable "stage" {
   type = string
-  description = "environment descriptor"
+  description = "stage name"
+}
+
+variable "env" {
+  type = string
+  description = "environment name"
 }

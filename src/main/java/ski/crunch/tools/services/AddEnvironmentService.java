@@ -44,7 +44,7 @@ public class AddEnvironmentService {
         EnvironmentConfig config = envConfigLoader.load(configFile);
 
         // generate the terraform source
-        sourceGenerationService.generateTerraformSource(config, sourceDir);
+        sourceGenerationService.generateTerraformSource( config, sourceDir);
 
 
 

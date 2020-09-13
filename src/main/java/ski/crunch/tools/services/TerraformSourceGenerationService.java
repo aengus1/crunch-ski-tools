@@ -10,6 +10,8 @@ import ski.crunch.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class TerraformSourceGenerationService {
@@ -26,27 +28,49 @@ public class TerraformSourceGenerationService {
         this.jsonTemplateEngine = thymeleafConfig.jsonTemplateEngine();
     }
 
-    public void generateTerraformSource(EnvironmentConfig config, File sourceDirectory) throws IOException {
+    /**
+     * Generate terraform source code
+     * @param config EnvironmentConfig (parsed from env.yml)
+     * @param sourceDirectory File directory to write source to
+     * @return Map<String, String> lookup map stage / environment name
+     * @throws IOException
+     */
+    public Map<String, String> generateTerraformSource(EnvironmentConfig config, File sourceDirectory) throws IOException {
+        Map<String, String> stageEnvNameMap = new HashMap<>();
 
         if (!sourceDirectory.exists() && !sourceDirectory.mkdir()) {
             throw new IOException("Failed to create directory: " + sourceDirectory.getAbsolutePath());
         }
 
-        for (String s : config.getEnvironmentDefs().keySet()) {
+        for (String stage : config.getEnvironmentDefs().keySet()) {
 
-            File environmentTerraformRoot = buildTerraformEnvironmentSourceDirectory(sourceDirectory, s, config.getEnvironmentDefs().get(s).isCI());
-            Context context = mapEnvironmentConfigToThymeleafContext(config, s);
+            String environmentName = config.getEnvironmentDefs().get(stage).getEnvName();
+            stageEnvNameMap.put(stage, environmentName);
+            File environmentTerraformRoot = buildTerraformEnvironmentSourceDirectory(sourceDirectory, environmentName, config.getEnvironmentDefs().get(stage).isCI());
+            Context context = mapEnvironmentConfigToThymeleafContext(config,stage, environmentName);
 
-            writeModuleSource("api", s, context, environmentTerraformRoot);
-            writeModuleSource("data", s, context, environmentTerraformRoot);
-            writeModuleSource("frontend", s, context, environmentTerraformRoot);
 
-            if( config.getEnvironmentDefs().get(s).isCI()) {
-                writeModuleSource("webclient-cd", s, context, environmentTerraformRoot);
+            writeModulesAdminSidecar(environmentName, context, environmentTerraformRoot);
+            //writeModuleSource("api", environmentName, context, environmentTerraformRoot);
+            writeModuleSource("data", environmentName, context, environmentTerraformRoot);
+            writeModuleSource("frontend", environmentName, context, environmentTerraformRoot);
+
+            if( config.getEnvironmentDefs().get(stage).isCI()) {
+                writeModuleSource("webclient-cd", environmentName, context, environmentTerraformRoot);
             }
         }
+
+        return stageEnvNameMap;
     }
 
+    private void writeModulesAdminSidecar(String envName, Context context, File envTfRoot) throws IOException {
+        String moduleTf = tfTemplateEngine.process("admin/admin.env", context);
+        String moduleJson = jsonTemplateEngine.process("admin/terraform.tfvars", context);
+        File moduleAdminDir = new File(envTfRoot, "admin");
+        FileUtils.writeStringToFile(moduleTf, new File(moduleAdminDir, envName.concat(".").concat("admin.env.tf")));
+        FileUtils.writeStringToFile(moduleJson, new File(moduleAdminDir, envName.concat(".terraform.tfvars.json")));
+
+    }
     private void writeModuleSource(String moduleName, String envName, Context context, File envTfRoot) throws  IOException {
 
         String moduleTf = tfTemplateEngine.process(moduleName.concat("/").concat(moduleName).concat(".env"), context);
@@ -56,14 +80,22 @@ public class TerraformSourceGenerationService {
         FileUtils.writeStringToFile(moduleJson, new File(moduleDir, envName.concat(".terraform.tfvars.json")));
     }
 
-    private Context mapEnvironmentConfigToThymeleafContext(EnvironmentConfig config, String environmentName) {
+    private Context mapEnvironmentConfigToThymeleafContext(EnvironmentConfig config,  String stage, String environmentName) {
         Context context = new Context();
-        EnvironmentConfig.EnvironmentDefinition environmentDefinition = config.getEnvironmentDefs().get(environmentName);
+        EnvironmentConfig.EnvironmentDefinition environmentDefinition = config.getEnvironmentDefs().get(stage);
+
+        if (config.getEnvironmentDefs().keySet().contains("env_name") && config.getEnvironmentDefs().get("env_name") != null ) {
+            context.setVariable("env", config.getEnvironmentDefs().get("env_name"));
+        } else {
+            context.setVariable("env", environmentName);
+        }
+        context.setVariable("stage", stage);
+
 
         context.setVariable("project_name", config.getProject_name());
         context.setVariable("domain_name", environmentDefinition.getDomain_name());
         context.setVariable("primary_region", config.getPrimary_region());
-        context.setVariable("stage", environmentName);
+
         context.setVariable("secondary_region", config.getSecondary_region());
         context.setVariable("profile", environmentDefinition.getProfile());
         context.setVariable("user_table_read_capacity", environmentDefinition.getUser_table_read_capacity());
@@ -76,7 +108,7 @@ public class TerraformSourceGenerationService {
         context.setVariable("encrypt_activity_table", environmentDefinition.isEncrypt_activity_table());
         context.setVariable("activity_table_billing_mode", environmentDefinition.getActivity_table_billing_mode());
         context.setVariable("activity_table_point_in_time_recovery", environmentDefinition.isActivity_table_point_in_time_recovery());
-        context.setVariable("app_alias", environmentDefinition.getApp_alias());
+        context.setVariable("app_alias", environmentDefinition.isApp_alias());
         context.setVariable("cognito_sub_domain", environmentDefinition.getCognito_sub_domain());
         context.setVariable("ws_sub_domain", environmentDefinition.getWs_sub_domain());
         context.setVariable("api_sub_domain", environmentDefinition.getApi_sub_domain());
@@ -87,7 +119,8 @@ public class TerraformSourceGenerationService {
 
     private File buildTerraformEnvironmentSourceDirectory(File sourceDirectory, String environmentName, boolean isCi) throws IOException {
         File root = makeModuleDir(sourceDirectory, environmentName);
-        makeModuleDir(root, "api");
+        makeModuleDir(root, "admin");
+        // makeModuleDir(root, "api");
         makeModuleDir(root, "data");
         makeModuleDir(root, "frontend");
         if (isCi) {
