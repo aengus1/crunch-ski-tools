@@ -21,7 +21,7 @@ provider "aws" {
 #################################################################################################################
 
 module "frontend" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=develop/src/stacks/frontend"
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git/src/stacks/frontend?ref=develop"
   app_alias = var.app_alias
   domain_name = var.domain_name
   primary_region = var.primary_region

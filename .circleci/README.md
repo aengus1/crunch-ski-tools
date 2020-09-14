@@ -25,6 +25,7 @@ hack Chrome devtools to grab the ssh key and then upload this to bitbucket under
 
 <https://support.circleci.com/hc/en-us/articles/360018860473-How-to-push-a-commit-back-to-the-same-repository-as-part-of-the-CircleCI-job>
 
+
 [^2 "An attempt was made to use gitlab but ran 
 into a lot of problems with allowing
 gitlab CI to push tags back into the source repository" ].
@@ -36,6 +37,23 @@ gitlab CI to push tags back into the source repository" ].
 2.  Additionally - read/write access to the `crunch-ski-environments` repository is required.  Access
 method in this case is username / password.  Create a user on bitbucket and ensure the username is entered in 
 `app.envrepo.username`.  Copy the password to CI's tools-context as `BB_PASS`
+
+3.  Additionally - read access to the `crunch-ski-infrastructure` repository is required.  Access method in this case
+is SSH.  
+  -  Create a new key on your client:  `ssh-keygen` and follow the prompts. Leave pw blank
+  -  In Bitbucket navigate to the `infrastructure` project -> repository settings -> access keys
+  -  paste the public key of the new key you just created:  `cat bb_inf_ro.pub` and label it `Infra Read Key` in the UI
+  
+ *Note that I had to configure my client to ensure that it used the correct key when connecting to bitbucket
+ -  `vi ~/.ssh/config` add the following entry:
+ 
+ ```
+  Host bitbucket.org
+  User git
+  IdentityFile /home/aengus/.ssh/bb_inf_ro
+```
+- `ssh-add ~/.ssh/bb_inf_ro`
+- `ssh-add -l`
 
 ### Package Registry - Gitlab
 Using the free Gitlab package registry.

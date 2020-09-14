@@ -11,7 +11,7 @@
 ## Resources
 #################################################################################################################
 module "admin" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=master/src/modules/admin"
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git/src/modules/admin?ref=[[${infra_branch}]]"
   lock-read-capacity = 1
   lock-write-capacity = 1
   profile = var.profile
@@ -33,4 +33,19 @@ variable "project_name" {
 variable "env" {
   type = string
   description = "name of environment"
+}
+
+variable "stage" {
+  type = string
+  description = "name of stage"
+}
+
+variable "lock-table-read-capacity" {
+  type = number
+  description = "lock table read capacity"
+}
+
+variable "lock-table-write-capacity" {
+  type = number
+  description = "lock table write capacity"
 }

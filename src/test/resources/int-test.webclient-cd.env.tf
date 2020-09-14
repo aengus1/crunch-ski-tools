@@ -23,7 +23,7 @@ provider "aws" {
 #################################################################################################################
 
 module "cd-webclient" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=develop/src/modules/cd-webclient"
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git/src/modules/cd-webclient?ref=develop"
   domain_name = var.domain_name
   primary_region = var.primary_region
   profile = var.profile

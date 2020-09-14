@@ -24,7 +24,6 @@ public class TerraformSourceGenerationServiceTest {
 
     private final EnvConfigLoader envConfigLoader = new EnvConfigLoader();
     private File tempSourceDir;
-    //private List<String> envNames;
     private Map<String, String> stageEnvNameMap;
 
     /**
@@ -41,12 +40,7 @@ public class TerraformSourceGenerationServiceTest {
             EnvironmentConfig config = envConfigLoader.load(envConfigFile);
             stageEnvNameMap = terraformSourceGenerationService.generateTerraformSource(config, tempSourceDir);
 
-//            envNames = config.getEnvironmentDefs().keySet().stream()
-//                    .map(x -> config.getEnvironmentDefs().get(x).getEnvName())
-//                    .collect(Collectors.toList());
-//            for (String envName : envNames) {
-//                System.out.println(envName);
-//            }
+
         } catch (IOException ex) {
             fail(ex.getMessage());
         }
