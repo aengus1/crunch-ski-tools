@@ -30,6 +30,7 @@ hack Chrome devtools to grab the ssh key and then upload this to bitbucket under
 into a lot of problems with allowing
 gitlab CI to push tags back into the source repository" ].
 
+
 ### VCS - Bitbucket
 1.  Special config is described above to allow CI push access to this repo
 [^2 "attempted to use Gitlab but ran into the aforementioned issue" ].
@@ -40,7 +41,8 @@ method in this case is username / password.  Create a user on bitbucket and ensu
 
 3.  Additionally - read access to the `crunch-ski-infrastructure` repository is required.  Access method in this case
 is SSH.  
-  -  Create a new key on your client:  `ssh-keygen` and follow the prompts. Leave pw blank
+  -  Create a new key on your client:  ` ssh-keygen -m PEM -t rsa -C "aengusmccullough@hotmail.com"` and follow the prompts.
+   Note that PEM format is required by circleCI.  Leave pw blank
   -  In Bitbucket navigate to the `infrastructure` project -> repository settings -> access keys
   -  paste the public key of the new key you just created:  `cat bb_inf_ro.pub` and label it `Infra Read Key` in the UI
   
@@ -54,6 +56,18 @@ is SSH.
 ```
 - `ssh-add ~/.ssh/bb_inf_ro`
 - `ssh-add -l`
+
+In order to use this SSH key from circleCI (i.e. when using in services CD PIPEline) will need to:
+- add this key to circleCI https://circleci.com/docs/2.0/add-ssh-key/:
+  - `project settings -> ssh keys -> additional ssh keys -> add`
+  - paste private key in here. use bitbucket.org as hostname
+  - add a step to the CD script (using the fingerprint shown in CI console)
+   ```
+   - add_ssh_keys:
+                fingerprints:
+                  - "SO:ME:FIN:G:ER:PR:IN:T"
+  ```
+
 
 ### Package Registry - Gitlab
 Using the free Gitlab package registry.

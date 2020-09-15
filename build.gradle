@@ -60,6 +60,13 @@ Application-name: tools
 }
 build.dependsOn versionTxt
 
+task copyScript(type: Copy) {
+
+        from 'src/main/resources/scripts'
+        into 'build/scripts/'
+}
+
+compileJava.dependsOn copyScript
 
 // Package Registry publishing...
 publishing {

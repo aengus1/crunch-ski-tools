@@ -55,11 +55,11 @@ public class TerraformSourceGenerationServiceTest {
     @Test
     public void testApiTemplateGeneration() throws IOException {
         String envName = stageEnvNameMap.get("prod");
-        File devApiTf = new File (getClass().getClassLoader().getResource("prod2.api.env.tf").getFile());
+        File devApiTf = new File (getClass().getClassLoader().getResource("templates/prod2.api.env.tf").getFile());
         File generatedDevApiTf = new File (tempSourceDir, "/"+envName+"/api/"+envName+".api.env.tf");
         compareGeneratedSourceWithExpected(devApiTf, generatedDevApiTf, "prod", envName);
 
-        File devApiJson = new File (getClass().getClassLoader().getResource("prod2.terraform.tfvars.json").getFile());
+        File devApiJson = new File (getClass().getClassLoader().getResource("templates/prod2.terraform.tfvars.json").getFile());
         File generatedDevApiJson = new File(tempSourceDir, "/"+envName + "/api/"+envName+".terraform.tfvars.json");
         compareGeneratedSourceWithExpected(devApiJson, generatedDevApiJson, "prod", envName);
 
@@ -68,11 +68,11 @@ public class TerraformSourceGenerationServiceTest {
     @Test
     public void testDataTemplateGeneration() throws IOException {
         String envName = stageEnvNameMap.get("prod");
-        File prodDataTf = new File(getClass().getClassLoader().getResource("prod.data.env.tf").getFile());
+        File prodDataTf = new File(getClass().getClassLoader().getResource("templates/prod.data.env.tf").getFile());
         File generatedProdDataTf = new File(tempSourceDir, "/"+envName+"/data/"+envName+".data.env.tf");
         compareGeneratedSourceWithExpected(prodDataTf, generatedProdDataTf, "prod", envName);
 
-        File prodDataJson = new File(getClass().getClassLoader().getResource("prod.terraform.tfvars.json").getFile());
+        File prodDataJson = new File(getClass().getClassLoader().getResource("templates/prod.terraform.tfvars.json").getFile());
         File generatedProdDataJson = new File(tempSourceDir, "/"+envName+"/data/"+envName+".terraform.tfvars.json");
         compareGeneratedSourceWithExpected(prodDataJson, generatedProdDataJson, "prod", envName);
 
@@ -81,11 +81,11 @@ public class TerraformSourceGenerationServiceTest {
     @Test
     public void testFrontEndTemplateGeneration() throws IOException {
         String envName = stageEnvNameMap.get("staging");
-        File stagingFrontEndTf = new File(getClass().getClassLoader().getResource("staging.frontend.env.tf").getFile());
+        File stagingFrontEndTf = new File(getClass().getClassLoader().getResource("templates/staging.frontend.env.tf").getFile());
         File generatedStagingFrontEndTf = new File(tempSourceDir, "/"+envName+"/frontend/"+envName+".frontend.env.tf");
         compareGeneratedSourceWithExpected(stagingFrontEndTf, generatedStagingFrontEndTf, "staging", envName);
 
-        File stagingFrontendJson = new File(getClass().getClassLoader().getResource("staging.terraform.tfvars.json").getFile());
+        File stagingFrontendJson = new File(getClass().getClassLoader().getResource("templates/staging.terraform.tfvars.json").getFile());
         File generatedStagingFrontEndJson = new File(tempSourceDir, "/"+envName+"/frontend/"+envName+".terraform.tfvars.json");
         compareGeneratedSourceWithExpected(stagingFrontendJson, generatedStagingFrontEndJson, "staging", envName);
 
@@ -94,11 +94,11 @@ public class TerraformSourceGenerationServiceTest {
     @Test
     public void testWebclientCdTemplateGeneration() throws IOException {
         String envName = stageEnvNameMap.get("int-test");
-        File intTestWebClientTf = new File(getClass().getClassLoader().getResource("int-test.webclient-cd.env.tf").getFile());
+        File intTestWebClientTf = new File(getClass().getClassLoader().getResource("templates/int-test.webclient-cd.env.tf").getFile());
         File generatedIntTestWebClientTf = new File(tempSourceDir, "/"+envName+"/webclient-cd/"+envName+".webclient-cd.env.tf");
         compareGeneratedSourceWithExpected(intTestWebClientTf, generatedIntTestWebClientTf, "int-test", envName);
 
-        File intTestWebclientJson = new File(getClass().getClassLoader().getResource("int-test.terraform.tfvars.json").getFile());
+        File intTestWebclientJson = new File(getClass().getClassLoader().getResource("templates/int-test.terraform.tfvars.json").getFile());
         File generatedIntTestWebclientJson = new File(tempSourceDir, "/"+envName+"/webclient-cd/"+envName+".terraform.tfvars.json");
         compareGeneratedSourceWithExpected(intTestWebclientJson, generatedIntTestWebclientJson, "int-test", envName);
 
