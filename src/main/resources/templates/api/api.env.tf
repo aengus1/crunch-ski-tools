@@ -101,3 +101,8 @@ variable "api_sub_domain"  {
   type = string
   description = "subdomain for the websocket endpoint"
 }
+
+variable "domain_stack" {
+  type = string
+  description = "name of shared domain stack"
+}

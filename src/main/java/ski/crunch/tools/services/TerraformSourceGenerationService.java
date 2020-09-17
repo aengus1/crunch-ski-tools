@@ -94,6 +94,7 @@ public class TerraformSourceGenerationService {
 
         context.setVariable("project_name", config.getProject_name());
         context.setVariable("domain_name", environmentDefinition.getDomain_name());
+        context.setVariable("domain_stack", environmentDefinition.getDomain_stack());
         context.setVariable("primary_region", config.getPrimary_region());
 
         context.setVariable("secondary_region", config.getSecondary_region());
@@ -112,7 +113,7 @@ public class TerraformSourceGenerationService {
         context.setVariable("cognito_sub_domain", environmentDefinition.getCognito_sub_domain());
         context.setVariable("ws_sub_domain", environmentDefinition.getWs_sub_domain());
         context.setVariable("api_sub_domain", environmentDefinition.getApi_sub_domain());
-        context.setVariable("infra_branch", environmentDefinition.getInfraBranch());
+        context.setVariable("infra_ref", environmentDefinition.getInfraRef());
 
         return context;
     }

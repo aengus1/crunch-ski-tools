@@ -33,12 +33,13 @@ public class EnvironmentConfig {
     @Setter
      public static class EnvironmentDefinition {
         private String domain_name;
+        private String domain_stack;
         private String default_branch;
         private String profile;
         private String envName;  // if not populated from yaml this will be auto-generated
         private boolean isCI;
         private boolean isProd;
-        private String infraBranch;
+        private String infraRef;
         private int user_table_read_capacity;
         private int user_table_write_capacity;
         private boolean encrypt_user_table;

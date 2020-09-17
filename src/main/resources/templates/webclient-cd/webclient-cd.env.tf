@@ -30,6 +30,7 @@ module "cd-webclient" {
   project_name = var.project_name
   stage = var.stage
   env = var.env
+  domain_stack = var.domain_stack
 }
 
 ## Outputs
@@ -74,4 +75,9 @@ variable "stage" {
 variable "env" {
   type = string
   description = "environment name"
+}
+
+variable "domain_stack" {
+  type = string
+  description = "name of shared domain stack"
 }

@@ -1,6 +1,5 @@
 package ski.crunch.tools.services;
 
-import jdk.swing.interop.SwingInterOpUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,6 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-import static org.powermock.configuration.ConfigurationType.Mockito;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
@@ -63,11 +61,28 @@ class TerraformProvisioningServiceTest {
         when(options.getStage()).thenReturn("staging");
         String envName = "namedenv";
 
-        terraformProvisioningService.provision(config, options, envName, tempDir);
+       boolean success =  terraformProvisioningService.provisionEnv(config, options, envName, tempDir);
+
+       assertTrue(success);
     }
+
+//    @Test
+//    public void testDeProvision() throws IOException {
+//        Map<String, EnvironmentConfig.EnvironmentState> envState = new HashMap<>();
+//        envState.put("staging", null);
+//        when(config.getEnvironmentState()).thenReturn(envState);
+//        when(options.getStage()).thenReturn("staging");
+//        String envName = "namedenv";
+//
+//        boolean success =  terraformProvisioningService.deProvision(config, options, envName, tempDir);
+//
+//        assertTrue(success);
+//    }
+
+
     @AfterAll
     public void tearDown() {
 
-        //tempDir.deleteOnExit();
+        // tempDir.deleteOnExit();
     }
 }

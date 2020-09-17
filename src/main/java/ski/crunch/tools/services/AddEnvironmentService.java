@@ -10,6 +10,7 @@ import ski.crunch.tools.model.EnvironmentConfig;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Map;
 
 @Service
 public class AddEnvironmentService {
@@ -19,11 +20,14 @@ public class AddEnvironmentService {
 
     private final GitService gitService;
     private final TerraformSourceGenerationService sourceGenerationService;
+    private final TerraformProvisioningService provisioningService;
 
-    public AddEnvironmentService(GitService gitService, TerraformSourceGenerationService sourceGenerationService) throws IOException {
+    public AddEnvironmentService(GitService gitService, TerraformSourceGenerationService sourceGenerationService, TerraformProvisioningService provisioningService) throws IOException {
 
         this.gitService = gitService;
         this.sourceGenerationService = sourceGenerationService;
+        this.provisioningService = provisioningService;
+
         this.repoDirectory = Files.createTempDirectory("envrepo").toFile();
         this.terraformDirectory = Files.createTempDirectory("terraform").toFile();
     }
@@ -44,7 +48,12 @@ public class AddEnvironmentService {
         EnvironmentConfig config = envConfigLoader.load(configFile);
 
         // generate the terraform source
-        sourceGenerationService.generateTerraformSource( config, sourceDir);
+        Map<String, String> envStageMap = sourceGenerationService.generateTerraformSource( config, sourceDir);
+
+        boolean provisionSuccess = provisioningService.provisionEnv(config, options, envName, sourceDir);
+
+
+
 
 
 

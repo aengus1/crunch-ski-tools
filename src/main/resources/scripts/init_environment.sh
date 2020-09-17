@@ -22,7 +22,7 @@ touch $LOG_FILE
 cat /dev/null > $LOG_FILE
 
 env=$1
-#mod=$2
+#dryrun=$2
 
 
 echo "Initializing environment " $env
@@ -74,15 +74,17 @@ for i in "${modules[@]}"; do
     exit 1
   fi
   ## Terraform Apply
-  terraform apply --input=false --auto-approve tfplan_${i} >>$LOG_FILE
-  if [ $? -eq 0 ]; then
-    echo "Successfully provisioned terraform ${i} module"
-  else
-    ## errors occur here often due to SSM tooManyUpdates error.  The solution is simply to re-try the apply.
-    ## TODO -> detect SSM TooManyUpdates error and retry
-    echo "Error initializing terraform ${i} module" >&2
-    exit 1
-  fi
+  #if [ -z ${dryrun+x} ]; then # only apply if dryrun variable is not set
+    terraform apply --input=false --auto-approve tfplan_${i} >>$LOG_FILE
+    if [ $? -eq 0 ]; then
+      echo "Successfully provisioned terraform ${i} module"
+    else
+      ## errors occur here often due to SSM tooManyUpdates error.  The solution is simply to re-try the apply.
+      ## TODO -> detect SSM TooManyUpdates error and retry
+      echo "Error initializing terraform ${i} module" >&2
+      exit 1
+    fi
+  #fi
   cd ../..
 done
 

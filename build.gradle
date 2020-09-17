@@ -154,6 +154,10 @@ jacocoTestReport {
 configurations { codacy }
 
 dependencies {
+
+
+    implementation 'org.jetbrains:annotations:19.0.0'
+    implementation 'org.jetbrains:annotations:19.0.0'
     codacy 'com.codacy:codacy-coverage-reporter:latest.release'
 }
 
