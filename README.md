@@ -19,9 +19,9 @@ This tool is used in development and in the Continuous Integration Pipeline of t
  tools to build the services project embedded in the build of that project.
  
  ## Run modes
- - As a java utility program to manage deployment environments + data
- - As a complete development environment for ski-analytics-services (via docker)
- - As part of the CI pipeline for 
+-  As a java utility program to manage deployment environments + data
+-  As a complete development environment for ski-analytics-services (via docker)
+-  As part of the CI pipeline for 
 
 ## Functionality 
 
@@ -61,7 +61,7 @@ Tool used to enforce commit message format.  Use the `commit` script to commit.
 
 ### Enable Annotation Processing  
 1.  IntelliJ -> Preferences -> Build, Execution , Deployment -> Compiler
- -  Enable Annotation processing
- -  Obtain processors from project classpath
+-  Enable Annotation processing
+-  Obtain processors from project classpath
 
 2.  Install IDE plugin

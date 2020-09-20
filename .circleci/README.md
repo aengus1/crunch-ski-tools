@@ -41,10 +41,10 @@ method in this case is username / password.  Create a user on bitbucket and ensu
 
 3.  Additionally - read access to the `crunch-ski-infrastructure` repository is required.  Access method in this case
 is SSH.  
-  - Create a new key on your client:  ` ssh-keygen -m PEM -t rsa -C "aengusmccullough@hotmail.com"` and follow the prompts.
-   Note that PEM format is required by circleCI.  Leave pw blank
-  - In Bitbucket navigate to the `infrastructure` project -> repository settings -> access keys
-  - paste the public key of the new key you just created:  `cat bb_inf_ro.pub` and label it `Infra Read Key` in the UI
+- Create a new key on your client:  ` ssh-keygen -m PEM -t rsa -C "aengusmccullough@hotmail.com"` and follow the prompts.
+  Note that PEM format is required by circleCI.  Leave pw blank
+- In Bitbucket navigate to the `infrastructure` project -> repository settings -> access keys
+- paste the public key of the new key you just created:  `cat bb_inf_ro.pub` and label it `Infra Read Key` in the UI
   
  *Note that I had to configure my client to ensure that it used the correct key when connecting to bitbucket
  - `vi ~/.ssh/config` add the following entry:
@@ -55,8 +55,9 @@ is SSH.
      IdentityFile /home/aengus/.ssh/bb_inf_ro
    ```
 
- - `ssh-add ~/.ssh/bb_inf_ro`
- - `ssh-add -l`
+- `ssh-add ~/.ssh/bb_inf_ro`
+- `ssh-add -l`
+
 
 In order to use this SSH key from circleCI (i.e. when using in services CD PIPEline) will need to:
 - add this key to circleCI https://circleci.com/docs/2.0/add-ssh-key/:
@@ -70,17 +71,18 @@ In order to use this SSH key from circleCI (i.e. when using in services CD PIPEl
                - "SO:ME:FIN:G:ER:PR:IN:T"
      ```
 
+
 ### Package Registry - Gitlab
 Using the free Gitlab package registry.
 
--  Make sure that repo pointed to in `build.gradle` points to your package repo
+- Make sure that repo pointed to in `build.gradle` points to your package repo
 `publishing / repositories / maven / url`
 
--  Create a personal access token in gitlab: <https://gitlab.com/profile/personal_access_tokens>
+- Create a personal access token in gitlab: <https://gitlab.com/profile/personal_access_tokens>
 
--  Add this token to CircleCI tools context as `GITLAB_ACCESS_TOKEN`
+- Add this token to CircleCI tools context as `GITLAB_ACCESS_TOKEN`
 
  ### Static Code Analysis - Codacy
  
--  Go to repository in Codacy and `settings/ integrations/ add integration`
--  copy the Project API token into CIRCLE_CI `tools-context` as `CODACY_PROJECT_TOKEN`
+- Go to repository in Codacy and `settings/ integrations/ add integration`
+- copy the Project API token into CIRCLE_CI `tools-context` as `CODACY_PROJECT_TOKEN`
