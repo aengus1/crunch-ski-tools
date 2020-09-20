@@ -3,13 +3,17 @@ package ski.crunch.utils;
 import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class FileUtils {
 
+    /**
+     * Writes a base64 string to a file
+     * @param base64 String base64 encoded String
+     * @return File output
+     */
     public static File writeBase64ToFile(String base64) {
 
         byte[] data = Base64.getDecoder().decode(base64);
@@ -19,7 +23,7 @@ public class FileUtils {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return new File("/tmp/" + name);
+        return new File(System.getProperty("java.io.tmpdir") + name);
     }
 
 
@@ -108,7 +112,7 @@ public class FileUtils {
     public static long getFolderSizeBytes(Path folder) throws IOException {
         AtomicLong size = new AtomicLong(0);
 
-        Files.walkFileTree(folder, new SimpleFileVisitor<Path>() {
+        Files.walkFileTree(folder, new SimpleFileVisitor<>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
                 size.addAndGet(attrs.size());

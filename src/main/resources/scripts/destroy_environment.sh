@@ -20,13 +20,13 @@ export TF_LOG="trace"
 export TF_LOG_PATH="terraform_destroy.log"
 
 
-echo "Destroying environment " $env
+echo "Destroying environment  $env"
 
 ## Exit if environment not found
 if [ -d $env ]; then
-  echo "Found environment" $env " to destroy"
+  echo "Found environment $env  to destroy"
 else
-  echo "Environment "$env " to destroy not found. Exiting." >&2
+  echo "Environment $env  to destroy not found. Exiting." >&2
   exit 1
 fi
 

@@ -82,7 +82,6 @@ public class FileUtilsTest {
         // set up -> create a directory structure in tmp dir
         File TEMP_DIR = new File(System.getProperty("java.io.tmpdir"));
         File DIR_NAME = new File(TEMP_DIR, "deletedirtest");
-        File dirToDelete = new File(System.getProperty("java.io.tmpdir"), "deletedirtest");
         DIR_NAME.mkdir();
         File subDirToDelete = new File(DIR_NAME, "subdir");
         subDirToDelete.mkdir();

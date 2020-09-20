@@ -25,14 +25,14 @@ env=$1
 #dryrun=$2
 
 
-echo "Initializing environment " $env
+echo "Initializing environment  $env"
 
 
 ## Exit if env is not set
 if [ -d $env ]; then
-  echo "Found environment" $env
+  echo "Found environment $env"
 else
-  echo "Environment "$env " not found. Exiting." >&2
+  echo "Environment $env  not found. Exiting." >&2
   exit 1
 fi
 

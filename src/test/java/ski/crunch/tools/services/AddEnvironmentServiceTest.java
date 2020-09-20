@@ -3,11 +3,11 @@ package ski.crunch.tools.services;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import ski.crunch.tools.model.AddEnvironmentOptions;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+
 
 @SpringBootTest
 public class AddEnvironmentServiceTest {
@@ -20,11 +20,11 @@ public class AddEnvironmentServiceTest {
     @Test
     @Disabled
     public void testAddEnvironment() throws  Exception{
-    //options.setRepositoryUrl("ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-environments.git");
         options.setRepositoryUrl("https://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-environments.git");
         options.setStage("staging");
 
 
-    addEnvironmentService.addEnvironment(options);
+        addEnvironmentService.addEnvironment(options);
+        assertFalse(true);
     }
 }

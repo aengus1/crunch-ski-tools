@@ -1,6 +1,5 @@
 package ski.crunch.tools;
 
-
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -16,12 +15,6 @@ import org.thymeleaf.templatemode.TemplateMode;
 public class ThymeleafConfig implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
-
-
-    public ThymeleafConfig() {
-        super();
-    }
-
 
     public void setApplicationContext(final ApplicationContext applicationContext)
             throws BeansException {
@@ -85,10 +78,5 @@ public class ThymeleafConfig implements ApplicationContextAware {
         templateEngine.setEnableSpringELCompiler(true);
         return templateEngine;
     }
-//    @Bean
-//    public ThymeleafViewResolver viewResolver(){
-//        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-//        viewResolver.setTemplateEngine(templateEngine());
-//        return viewResolver;
-//    }
+
 }

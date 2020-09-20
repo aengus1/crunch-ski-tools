@@ -1,7 +1,5 @@
 package ski.crunch.utils.process;
 
-import org.springframework.stereotype.Component;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +13,6 @@ public class ProcessRunner {
         Process process;
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(cmdArray);
-            processBuilder.environment().put("CLI_BUILD", "TRUE");
             processBuilder.directory(directory);
             if(isInheritIO) {
                 processBuilder.inheritIO();

@@ -41,33 +41,34 @@ method in this case is username / password.  Create a user on bitbucket and ensu
 
 3.  Additionally - read access to the `crunch-ski-infrastructure` repository is required.  Access method in this case
 is SSH.  
-  -  Create a new key on your client:  ` ssh-keygen -m PEM -t rsa -C "aengusmccullough@hotmail.com"` and follow the prompts.
+  - Create a new key on your client:  ` ssh-keygen -m PEM -t rsa -C "aengusmccullough@hotmail.com"` and follow the prompts.
    Note that PEM format is required by circleCI.  Leave pw blank
-  -  In Bitbucket navigate to the `infrastructure` project -> repository settings -> access keys
-  -  paste the public key of the new key you just created:  `cat bb_inf_ro.pub` and label it `Infra Read Key` in the UI
+  - In Bitbucket navigate to the `infrastructure` project -> repository settings -> access keys
+  - paste the public key of the new key you just created:  `cat bb_inf_ro.pub` and label it `Infra Read Key` in the UI
   
  *Note that I had to configure my client to ensure that it used the correct key when connecting to bitbucket
- -  `vi ~/.ssh/config` add the following entry:
+ - `vi ~/.ssh/config` add the following entry:
  
- ```
-  Host bitbucket.org
-  User git
-  IdentityFile /home/aengus/.ssh/bb_inf_ro
-```
-- `ssh-add ~/.ssh/bb_inf_ro`
-- `ssh-add -l`
+    ```bash
+     Host bitbucket.org
+     User git
+     IdentityFile /home/aengus/.ssh/bb_inf_ro
+   ```
+
+ - `ssh-add ~/.ssh/bb_inf_ro`
+ - `ssh-add -l`
 
 In order to use this SSH key from circleCI (i.e. when using in services CD PIPEline) will need to:
 - add this key to circleCI https://circleci.com/docs/2.0/add-ssh-key/:
   - `project settings -> ssh keys -> additional ssh keys -> add`
   - paste private key in here. use bitbucket.org as hostname
   - add a step to the CD script (using the fingerprint shown in CI console)
-   ```
-   - add_ssh_keys:
-                fingerprints:
-                  - "SO:ME:FIN:G:ER:PR:IN:T"
-  ```
-
+   
+     ```bash
+      - add_ssh_keys:
+             fingerprints:
+               - "SO:ME:FIN:G:ER:PR:IN:T"
+     ```
 
 ### Package Registry - Gitlab
 Using the free Gitlab package registry.

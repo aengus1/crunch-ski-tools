@@ -48,7 +48,7 @@ public class TerraformSourceGenerationServiceTest {
 
     /**
      * Compare generated source code with expected
-     * @throws IOException
+     * @throws IOException on error
      */
 
     @Disabled  // going to remove API stack - it isn't adding much value right now

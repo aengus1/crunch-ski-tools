@@ -16,13 +16,12 @@ import java.util.Map;
 @Service
 public class TerraformSourceGenerationService {
 
-    private final ThymeleafConfig thymeleafConfig;
     private final TemplateEngine tfTemplateEngine;
     private final TemplateEngine jsonTemplateEngine;
 
 
     public TerraformSourceGenerationService(ApplicationContext applicationContext) {
-        this.thymeleafConfig = new ThymeleafConfig();
+        ThymeleafConfig thymeleafConfig = new ThymeleafConfig();
         thymeleafConfig.setApplicationContext(applicationContext);
         this.tfTemplateEngine = thymeleafConfig.terraformTemplateEngine();
         this.jsonTemplateEngine = thymeleafConfig.jsonTemplateEngine();
@@ -33,7 +32,7 @@ public class TerraformSourceGenerationService {
      * @param config EnvironmentConfig (parsed from env.yml)
      * @param sourceDirectory File directory to write source to
      * @return Map<String, String> lookup map stage / environment name
-     * @throws IOException
+     * @throws IOException on IO Failure
      */
     public Map<String, String> generateTerraformSource(EnvironmentConfig config, File sourceDirectory) throws IOException {
         Map<String, String> stageEnvNameMap = new HashMap<>();
@@ -84,7 +83,7 @@ public class TerraformSourceGenerationService {
         Context context = new Context();
         EnvironmentConfig.EnvironmentDefinition environmentDefinition = config.getEnvironmentDefs().get(stage);
 
-        if (config.getEnvironmentDefs().keySet().contains("env_name") && config.getEnvironmentDefs().get("env_name") != null ) {
+        if (config.getEnvironmentDefs().containsKey("env_name") && config.getEnvironmentDefs().get("env_name") != null ) {
             context.setVariable("env", config.getEnvironmentDefs().get("env_name"));
         } else {
             context.setVariable("env", environmentName);
