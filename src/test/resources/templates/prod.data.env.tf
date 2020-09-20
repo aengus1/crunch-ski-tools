@@ -24,7 +24,7 @@ provider "aws" {
 #################################################################################################################
 module "data" {
 
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git/src/stacks/data?ref=master"
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git//src/stacks/data?ref=master"
   activity_table_billing_mode = var.activity_table_billing_mode
   activity_table_point_in_time_recovery = var.activity_table_point_in_time_recovery
   activity_table_read_capacity = var.activity_table_read_capacity
@@ -42,6 +42,7 @@ module "data" {
   user_table_write_capacity = var.user_table_write_capacity
   stage = var.stage
   env = var.env
+  domain_stack = var.domain_stack
 }
 
 
@@ -154,3 +155,7 @@ variable "activity_table_point_in_time_recovery" {
   description = "enable point in time recovery on the activity table"
 }
 
+variable "domain_stack" {
+  type = string
+  description = "name of shared domain stack"
+}

@@ -23,13 +23,14 @@ provider "aws" {
 #################################################################################################################
 
 module "cd-webclient" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git/src/modules/cd-webclient?ref=develop"
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git//src/modules/cd-webclient?ref=develop"
   domain_name = var.domain_name
   primary_region = var.primary_region
   profile = var.profile
   project_name = var.project_name
   stage = var.stage
   env = var.env
+  domain_stack = var.domain_stack
 }
 
 ## Outputs
@@ -74,4 +75,9 @@ variable "stage" {
 variable "env" {
   type = string
   description = "environment name"
+}
+
+variable "domain_stack" {
+  type = string
+  description = "name of shared domain stack"
 }

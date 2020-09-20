@@ -54,7 +54,7 @@ public class EnvConfigLoader {
             }
         }
 
-        List<Map<String, Object>> environments = (ArrayList<Map<String, Object>>) conf.get("environment-definition");
+        List<Map<String, Object>> environments = (ArrayList<Map<String, Object>>) conf.get("environment_spec");
         if (environments != null && environments.size() > 0) {
             result.setEnvironmentDefs(new HashMap<>());
             for (Map<String, Object> environment : environments) {
@@ -66,14 +66,16 @@ public class EnvConfigLoader {
                     env.setProfile((String) properties.get("profile"));
                     env.setDomain_name((String) properties.get("domain_name"));
                     env.setDomain_stack((String) properties.get("domain_stack"));
+                    env.setInfraRef((String) properties.get("infra_ref"));
 
                     if(properties.containsKey("env_name") && !"auto".equals(properties.get("env_name"))) {
                         env.setEnvName( (String) properties.get("env_name"));
                     } else {
                         env.setEnvName(generator.newWord(8).toLowerCase());
                     }
+
+
                     Map<String, Object> tfProps = (Map<String, Object>) properties.get("properties");
-                    env.setInfraRef((String) tfProps.get("infra_ref"));
                     env.setUser_table_read_capacity((int) tfProps.get("user_table_read_capacity"));
                     env.setUser_table_write_capacity((int) tfProps.get("user_table_write_capacity"));
                     env.setEncrypt_user_table((boolean) tfProps.get("encrypt_user_table"));

@@ -1,9 +1,6 @@
 package ski.crunch.tools.services;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +51,7 @@ class TerraformProvisioningServiceTest {
     }
 
     @Test
+    @Disabled
     public void testProvision() throws IOException {
         Map<String, EnvironmentConfig.EnvironmentState> envState = new HashMap<>();
         envState.put("staging", null);

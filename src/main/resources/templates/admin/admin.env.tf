@@ -11,7 +11,7 @@
 ## Resources
 #################################################################################################################
 module "admin" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git/src/modules/admin?ref=[[${infra_branch}]]"
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git//src/modules/admin?ref=[[${infra_ref}]]"
   lock-read-capacity = 1
   lock-write-capacity = 1
   profile = var.profile
@@ -48,4 +48,9 @@ variable "lock-table-read-capacity" {
 variable "lock-table-write-capacity" {
   type = number
   description = "lock table write capacity"
+}
+
+variable "domain_stack" {
+  type = string
+  description = "name of shared domain stack"
 }

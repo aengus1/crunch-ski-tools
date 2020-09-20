@@ -25,7 +25,7 @@ provider "aws" {
 #################################################################################################################
 
 module "api" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git/src/stacks/api?ref=master"
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git//src/stacks/api?ref=master"
   api_sub_domain = var.api_sub_domain
   cognito_sub_domain = var.cognito_sub_domain
   domain_name = var.domain_name
@@ -35,6 +35,7 @@ module "api" {
   ws_sub_domain = var.ws_sub_domain
   stage = var.stage
   env = var.env
+  domain_stack = var.domain_stack
 }
 
 ## Outputs
@@ -102,4 +103,9 @@ variable "ws_sub_domain"  {
 variable "api_sub_domain"  {
   type = string
   description = "subdomain for the websocket endpoint"
+}
+
+variable "domain_stack" {
+  type = string
+  description = "name of shared domain stack"
 }

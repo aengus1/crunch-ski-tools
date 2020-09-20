@@ -23,7 +23,7 @@ provider "aws" {
 #################################################################################################################
 
 module "api" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=[[${infra_branch}]]/stacks/api"
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git//stacks/api?ref=[[${infra_ref}]]"
   api_sub_domain = var.api_sub_domain
   cognito_sub_domain = var.cognito_sub_domain
   domain_name = var.domain_name

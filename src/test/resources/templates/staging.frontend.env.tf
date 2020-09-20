@@ -21,7 +21,7 @@ provider "aws" {
 #################################################################################################################
 
 module "frontend" {
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git/src/stacks/frontend?ref=develop"
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git//src/stacks/frontend?ref=develop"
   app_alias = var.app_alias
   domain_name = var.domain_name
   primary_region = var.primary_region
@@ -29,6 +29,7 @@ module "frontend" {
   project_name = var.project_name
   stage = var.stage
   env = var.env
+  domain_stack = var.domain_stack
 }
 ## Outputs
 #################################################################################################################
@@ -76,4 +77,9 @@ variable "stage" {
 variable "env" {
   type = string
   description = "environment name"
+}
+
+variable "domain_stack" {
+  type = string
+  description = "name of shared domain stack"
 }

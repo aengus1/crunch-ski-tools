@@ -29,12 +29,11 @@ public class TestTemplateParse {
 
         Context context = new Context();
         context.setVariable("envname", "myenvironment");
-        context.setVariable("infra_branch", "feature-123");
+        context.setVariable("infra_ref", "feature-123");
 
         String result =  templateEngine.process("test", context);
-
         assertTrue(result.contains("    bucket = \"myenvironment-crunch-ski-tf-backend-store\""));
-        assertTrue(result.contains("source = \"git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git?ref=feature-123/stacks/api\""));
+        assertTrue(result.contains("source = \"git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git//stacks/api?ref=feature-123\""));
 
     }
 }

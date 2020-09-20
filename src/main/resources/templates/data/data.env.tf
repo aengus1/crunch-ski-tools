@@ -24,7 +24,7 @@ provider "aws" {
 #################################################################################################################
 module "data" {
 
-  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git/src/stacks/data?ref=[[${infra_branch}]]"
+  source = "git::ssh://aengus123@bitbucket.org/mcculloughsolutions/ski-analytics-infrastructure.git//src/stacks/data?ref=[[${infra_ref}]]"
 
   activity_table_billing_mode = var.activity_table_billing_mode
   activity_table_point_in_time_recovery = var.activity_table_point_in_time_recovery

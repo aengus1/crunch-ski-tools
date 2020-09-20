@@ -29,6 +29,7 @@ module "frontend" {
   project_name = var.project_name
   stage = var.stage
   env = var.env
+  domain_stack = var.domain_stack
 }
 ## Outputs
 #################################################################################################################

@@ -37,11 +37,11 @@ class EnvConfigLoaderTest {
         EnvironmentConfig.EnvironmentDefinition prodEnv = config.getEnvironmentDefs().get("prod");
 
         assertEquals("prod", prodEnv.getProfile());
-        assertEquals("crunch.ski", prodEnv.getDomain_name());
+        assertEquals("mccullough-solutions.ca", prodEnv.getDomain_name());
         assertEquals("master", prodEnv.getDefault_branch());
         assertTrue(prodEnv.isCI());
 
-        assertEquals("master", prodEnv.getInfraBranch());
+        assertEquals("master", prodEnv.getInfraRef());
         assertEquals(1, prodEnv.getUser_table_read_capacity());
         assertEquals(1, prodEnv.getUser_table_write_capacity());
         assertFalse(prodEnv.isEncrypt_user_table());
