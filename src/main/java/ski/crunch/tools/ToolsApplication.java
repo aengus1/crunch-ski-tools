@@ -8,7 +8,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 public class ToolsApplication {
 
 	public static void main(String[] args) {
-
 		System.exit(SpringApplication.exit(
 				new SpringApplicationBuilder(ToolsApplication.class)
 						.logStartupInfo(false)

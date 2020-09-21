@@ -1,9 +1,10 @@
-package ski.crunch.tools;
+package ski.crunch.tools.io;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import ski.crunch.tools.model.ConfigurationProperty;
+import ski.crunch.tools.io.ToolsConfigLoader;
+import ski.crunch.tools.model.ToolsConfigProperty;
 
 import java.io.*;
 import java.util.Map;
@@ -11,14 +12,14 @@ import java.util.Map;
 import static junit.framework.TestCase.*;
 
 
-public class ConfigLoaderTest {
+public class ToolsConfigLoaderTest {
 
     private final InputStream originalIn = System.in;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
 
-    private ConfigLoader configLoader;
+    private ToolsConfigLoader toolsConfigLoader;
     private File storageDir = new File(System.getProperty("java.io.tmpdir"), ".crunch");
 
     @Before
@@ -28,17 +29,17 @@ public class ConfigLoaderTest {
         if(storageDir.exists()) {
             storageDir.delete();
         }
-        this.configLoader = new ConfigLoader();
+        this.toolsConfigLoader = new ToolsConfigLoader();
     }
 
     @Test
     void testCreateConfigIfNotExists() throws IOException {
-        this.configLoader = new ConfigLoader();
-        configLoader.setHomeDir(System.getProperty("java.io.tmpdir"));
-        configLoader.setStorageDir(storageDir);
-        configLoader.setConfigFile(new File(storageDir, "config"));
+        this.toolsConfigLoader = new ToolsConfigLoader();
+        toolsConfigLoader.setHomeDir(System.getProperty("java.io.tmpdir"));
+        toolsConfigLoader.setStorageDir(storageDir);
+        toolsConfigLoader.setConfigFile(new File(storageDir, "config"));
 
-        configLoader.createConfigIfNotExists();
+        toolsConfigLoader.createConfigIfNotExists();
 
 //        assertEquals("No configuration directory detected"
 //                +System.lineSeparator()+"No configuration file detected", outContent.toString());
@@ -59,33 +60,33 @@ public class ConfigLoaderTest {
 
     @Test
     void testReadConfiguration() throws IOException {
-        ConfigLoader configLoader = new ConfigLoader();
-        configLoader.setConfigFile(new File(getClass().getClassLoader().getResource("testConfig.properties").getFile()));
+        ToolsConfigLoader toolsConfigLoader = new ToolsConfigLoader();
+        toolsConfigLoader.setConfigFile(new File(getClass().getClassLoader().getResource("testConfig.properties").getFile()));
 
-        configLoader.readConfiguration();
-        Map<ConfigurationProperty, String> result = configLoader.getValues();
-        assertTrue(result.keySet().contains(ConfigurationProperty.PROJECT_NAME));
-        assertEquals("crunch.ski", result.get(ConfigurationProperty.PROJECT_NAME));
+        toolsConfigLoader.readConfiguration();
+        Map<ToolsConfigProperty, String> result = toolsConfigLoader.getValues();
+        assertTrue(result.keySet().contains(ToolsConfigProperty.PROJECT_NAME));
+        assertEquals("crunch.ski", result.get(ToolsConfigProperty.PROJECT_NAME));
 
-        assertTrue(result.keySet().contains(ConfigurationProperty.SECONDARY_REGION));
-        assertEquals("us-west-2", result.get(ConfigurationProperty.SECONDARY_REGION));
+        assertTrue(result.keySet().contains(ToolsConfigProperty.SECONDARY_REGION));
+        assertEquals("us-west-2", result.get(ToolsConfigProperty.SECONDARY_REGION));
 
     }
 
     @Test
     void testWriteConfiguration() throws IOException {
-        ConfigLoader configLoader = new ConfigLoader();
-        configLoader.setConfigFile(new File(getClass().getClassLoader().getResource("testConfig.properties").getFile()));
+        ToolsConfigLoader toolsConfigLoader = new ToolsConfigLoader();
+        toolsConfigLoader.setConfigFile(new File(getClass().getClassLoader().getResource("testConfig.properties").getFile()));
 
-        configLoader.readConfiguration();
-        Map<ConfigurationProperty, String> result = configLoader.getValues();
+        toolsConfigLoader.readConfiguration();
+        Map<ToolsConfigProperty, String> result = toolsConfigLoader.getValues();
 
-        configLoader.setConfigFile(new File(System.getProperty("java.io.tmpdir"),"testconfigwrite.txt"));
-        configLoader.writeConfig();
+        toolsConfigLoader.setConfigFile(new File(System.getProperty("java.io.tmpdir"),"testconfigwrite.txt"));
+        toolsConfigLoader.writeConfig();
 
-        configLoader.readConfiguration();
-        Map<ConfigurationProperty, String> secondResult = configLoader.getValues();
-        assertEquals(result.get(ConfigurationProperty.PROJECT_NAME), secondResult.get(ConfigurationProperty.PROJECT_NAME));
+        toolsConfigLoader.readConfiguration();
+        Map<ToolsConfigProperty, String> secondResult = toolsConfigLoader.getValues();
+        assertEquals(result.get(ToolsConfigProperty.PROJECT_NAME), secondResult.get(ToolsConfigProperty.PROJECT_NAME));
 
     }
 

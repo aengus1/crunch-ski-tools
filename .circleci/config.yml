@@ -24,12 +24,12 @@ commands:
   gbuild:
     description: Gradle Build
     steps:
-      - run: git status  && ./gradlew build -Preckon.stage=final
+      - run: git status  && ./gradlew build -Preckon.stage=final -Papp.envrepo.password=${BB_PASS}
 
   test:
     description: Gradle Unit test
     steps:
-      - run: ./gradlew check
+      - run: ./gradlew check -Papp.envrepo.password=${BB_PASS}
 
   release:
     description: Publish to Artifact Repository
@@ -45,10 +45,10 @@ commands:
           command: |
                     if [ "${CIRCLE_BRANCH}" == "master" ];
                       then
-                      ./gradlew  build  reckonTagPush -Preckon.scope=minor -Preckon.stage=final -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+                      ./gradlew  build  reckonTagPush -Preckon.scope=minor -Preckon.stage=final -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN} -Papp.envrepo.password=${BB_PASS}
                     elif [ "${CIRCLE_BRANCH}" == "develop" ];
                       then
-                      ./gradlew  build  reckonTagPush -Preckon.scope=minor -Preckon.stage=rc -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN}
+                      ./gradlew  build  reckonTagPush -Preckon.scope=minor -Preckon.stage=rc -PgitlabAccessToken=${GITLAB_ACCESS_TOKEN} -Papp.envrepo.password=${BB_PASS}
                     fi
       - run:
           name: "Publish binary"
@@ -111,7 +111,7 @@ jobs:
           paths:
             - libs
       - test
-      - run: ./gradlew sendCoverageToCodacy
+      - run: ./gradlew sendCoverageToCodacy -Papp.envrepo.password=${BB_PASS}
       - store_test_results:
           path: build/test-results/test
       - store_artifacts:

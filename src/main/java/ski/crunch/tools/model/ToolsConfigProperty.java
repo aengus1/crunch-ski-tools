@@ -1,6 +1,6 @@
 package ski.crunch.tools.model;
 
-public enum ConfigurationProperty {
+public enum ToolsConfigProperty {
         PROJECT_NAME,
         PROFILE_NAME,
         DATA_REGION,

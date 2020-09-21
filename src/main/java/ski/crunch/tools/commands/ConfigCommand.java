@@ -2,7 +2,7 @@ package ski.crunch.tools.commands;
 
 import org.springframework.stereotype.Component;
 import picocli.CommandLine;
-import ski.crunch.tools.ConfigLoader;
+import ski.crunch.tools.io.ToolsConfigLoader;
 
 import java.io.File;
 import java.util.concurrent.Callable;
@@ -17,24 +17,24 @@ import java.util.concurrent.Callable;
 )
 public class ConfigCommand implements Callable<Integer> {
 
-    private ConfigLoader configLoader;
+    private ToolsConfigLoader toolsConfigLoader;
 
     public ConfigCommand() {
-        configLoader = new ConfigLoader();
+        toolsConfigLoader = new ToolsConfigLoader();
     }
 
 
     @Override
     public Integer call() throws Exception {
         try {
-            configLoader.createConfigIfNotExists();
+            toolsConfigLoader.createConfigIfNotExists();
 
-            if (configLoader.getConfigFile().exists()) {
-                configLoader.updatePropertiesFromUserInput();
+            if (toolsConfigLoader.getConfigFile().exists()) {
+                toolsConfigLoader.updatePropertiesFromUserInput();
             } else {
-                configLoader.readPropertiesFromUserInput();
+                toolsConfigLoader.readPropertiesFromUserInput();
             }
-            configLoader.writeConfig();
+            toolsConfigLoader.writeConfig();
         } catch (Exception ex) {
             ex.printStackTrace();
             return 1;
@@ -55,19 +55,19 @@ public class ConfigCommand implements Callable<Integer> {
         public Integer call() throws Exception {
             try {
 
-                File storageDir = configLoader.getStorageDir();
+                File storageDir = toolsConfigLoader.getStorageDir();
                 if (!storageDir.exists()) {
                     System.out.println("No configuration directory detected");
                     return 0;
                 }
 
-                File configFile = configLoader.getConfigFile();
+                File configFile = toolsConfigLoader.getConfigFile();
                 if (!configFile.exists()) {
                     System.out.println("No configuration file detected");
                     return 0;
                 }
 
-                configLoader.printConfig();
+                toolsConfigLoader.printConfig();
                 return 0;
 
             } catch (Exception ex) {
