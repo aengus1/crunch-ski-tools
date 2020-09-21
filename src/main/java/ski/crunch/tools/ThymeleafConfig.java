@@ -57,6 +57,18 @@ public class ThymeleafConfig implements ApplicationContextAware {
     }
 
     @Bean
+    public SpringResourceTemplateResolver backupConfigResolver() {
+        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+        templateResolver.setApplicationContext(this.applicationContext);
+        templateResolver.setSuffix(".yml");
+        templateResolver.setTemplateMode(TemplateMode.TEXT);
+        // Template cache is true by default. Set to false if you want
+        // templates to be automatically updated when modified.
+        templateResolver.setCacheable(true);
+        return templateResolver;
+    }
+
+    @Bean
     public SpringTemplateEngine terraformTemplateEngine(){
         // SpringTemplateEngine automatically applies SpringStandardDialect and
         // enables Spring's own MessageSource message resolution mechanisms.
@@ -75,6 +87,14 @@ public class ThymeleafConfig implements ApplicationContextAware {
     public SpringTemplateEngine jsonTemplateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.addTemplateResolver(jsonTemplateResolver());
+        templateEngine.setEnableSpringELCompiler(true);
+        return templateEngine;
+    }
+
+    @Bean
+    public SpringTemplateEngine backupConfigTemplateEngine() {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.addTemplateResolver(backupConfigResolver());
         templateEngine.setEnableSpringELCompiler(true);
         return templateEngine;
     }

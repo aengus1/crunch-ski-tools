@@ -1,0 +1,14 @@
+sources:
+
+  s3:
+    activity: "[[${env}]]-activity-[[${projectName}]]"
+    rawActivity: "[[${env}]]-raw-activity-[[${projectName}]]"
+
+  dynamodb:
+    user: "[[${env}]]-[[${projectName}]]-userTable"
+    activity: "[[${env}]]-[[${projectName}]]-Activity"
+
+  ssm:
+    weather: "[[${projectName}]]-weather-api-key"
+    location: "[[${projectName}]]-location-api-key"
+    rockset: "[[${projectName}]]-rockset-api-key"

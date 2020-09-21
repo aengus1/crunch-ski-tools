@@ -102,7 +102,7 @@ dependencies {
     compile('info.picocli:picocli-spring-boot-starter:4.5.0')
     compile('com.jcraft:jsch:0.1.54')
     compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.8.1.202007141445-r'
-    compile('org.yaml:snakeyaml:1.26')
+    //compile('org.yaml:snakeyaml:1.26')
     compile('org.eclipse.jgit:org.eclipse.jgit.ssh.jsch:5.8.1.202007141445-r')
     compile('com.maximeroussy.invitrode:invitrode:2.0.1') //https://github.com/maximeroussy/invitrode
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
